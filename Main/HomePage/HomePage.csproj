@@ -6,11 +6,10 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RegisterPage\RegisterPage.csproj" />
+    <ProjectReference Include="..\LoginPage\LoginPage.csproj" />
   </ItemGroup>
 
 </Project>

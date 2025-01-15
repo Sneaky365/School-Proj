@@ -1,4 +1,4 @@
-
+using Main;
 namespace Main
 {
     public partial class Form1 : Form
