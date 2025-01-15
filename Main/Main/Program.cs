@@ -1,3 +1,4 @@
+
 namespace Main
 {
     internal static class Program
