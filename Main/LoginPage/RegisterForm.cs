@@ -1,3 +1,6 @@
+
+using Data_Layer;
+using LoginPage;
 using Microsoft.VisualBasic.ApplicationServices;
 using System.Data.OleDb;
 
@@ -5,7 +8,7 @@ namespace RegisterPage;
 
 public partial class RegisterForm : Form
 {
-    
+    UserClass user;
     public RegisterForm()
     {
         InitializeComponent();
@@ -26,6 +29,7 @@ public partial class RegisterForm : Form
         {
             using(OleDbConnection connection = new OleDbConnection(connectionS))
             {
+                connection.Open();
                 try
                 {
                     OleDbCommand registerCmd = new OleDbCommand(queryS, connection);
@@ -36,8 +40,10 @@ public partial class RegisterForm : Form
                     registerCmd.Parameters.AddWithValue("@hs", 0);
 
                     registerCmd.ExecuteNonQuery();
+
+                    user = new UserClass(textBox1.Text, textBox2.Text, userID, 0);
+                    modifyTextFileUserData(Path.Combine(projectRoot, "Resources", "currUser.txt"));
                     
-                   
                     this.Close();
                 }catch (Exception ex)
                 {
@@ -58,17 +64,18 @@ public partial class RegisterForm : Form
         }
         return currentDirectory;
     }
-    private void modifyTextFileUserData(string operation, string path)
+    private void modifyTextFileUserData(string path, string operation = "")
     {
         if (operation == "DELELE")
         {
             File.WriteAllText(path, String.Empty);
+            
         }
         else
         {
             using (StreamWriter sw = new StreamWriter(path))
             {
-                //sw.WriteLine(user.ID);
+                sw.WriteLine(user.ID);
             }
         }
     }

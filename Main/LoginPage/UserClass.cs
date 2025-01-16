@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LoginPage;
-internal class UserClass
+namespace Data_Layer;
+ public class UserClass
 {
     public string Name { get; set; }
     public string Password { get; set; }

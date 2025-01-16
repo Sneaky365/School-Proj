@@ -1,3 +1,4 @@
+using Data_Layer;
 using RegisterPage;
 using System.Data.OleDb;
 using System.IO;
@@ -7,7 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 namespace LoginPage;
 public partial class LoginForm : Form
 {
-    UserClass user;
+    public UserClass user;
     public LoginForm()
     {
         InitializeComponent();
@@ -54,8 +55,8 @@ public partial class LoginForm : Form
                     }
                     while (reader.Read())
                     {
-                        user = new UserClass(reader[1].ToString(), reader[2].ToString(), reader[0].ToString(), int.Parse(reader[3].ToString()));
-                        modifyTextFileUserData("DELETE", Path.Combine(projectRoot, "Resources", "currUser.txt"));
+                       user = new UserClass(reader[1].ToString(), reader[2].ToString(), reader[0].ToString(), int.Parse(reader[3].ToString()));
+                       modifyTextFileUserData("DELETE", Path.Combine(projectRoot, "Resources", "currUser.txt"));
                     }
                     this.Close();
                 }
@@ -80,7 +81,7 @@ public partial class LoginForm : Form
     {
         RegisterForm registerForm = new RegisterForm();
         this.Hide();
-        registerForm.FormClosed += (arg, args) => this.Show();
+        
         registerForm.Show();
 
     }
