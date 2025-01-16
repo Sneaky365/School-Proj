@@ -12,7 +12,7 @@ namespace Data_Layer;
     public int HighestScore { get; set; }
     public string ID { get; set; }
     
-    public UserClass(string name, string password, string id, int highestScore)
+    public UserClass(string id, string name, string password, int highestScore)
     {
         this.Name = name;
         this.Password = password;

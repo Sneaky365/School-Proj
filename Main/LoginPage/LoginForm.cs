@@ -32,7 +32,7 @@ public partial class LoginForm : Form
         string dbAbsolute = Path.GetFullPath(dbRelative);
 
         string connectionS = $@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={dbRelative};";
-        string queryS = @"SELECT USERNAME, [PASSWORD] FROM UserData WHERE USERNAME = @username AND [PASSWORD] = @password";
+        string queryS = @"SELECT USERNAME, [PASSWORD], ID, HS FROM UserData WHERE USERNAME = @username AND [PASSWORD] = @password";
         //string queryS = @"INSERT INTO UserData ([PASSWORD], USERNAME, ID)
         //VALUES(@password, @username, @id)";
 
@@ -57,8 +57,9 @@ public partial class LoginForm : Form
                     }
                     while (reader.Read())
                     {
-                       user = new UserClass(reader[1].ToString(), reader[2].ToString(), reader[0].ToString(), int.Parse(reader[3].ToString()));
-                       modifyTextFileUserData("DELETE", Path.Combine(projectRoot, "Resources", "currUser.txt"));
+                       
+                       user = new UserClass(reader["ID"].ToString(), reader["USERNAME"].ToString(), reader["PASSWORD"].ToString(), int.Parse(reader["HS"].ToString()));
+                       modifyTextFileUserData(Path.Combine(projectRoot, "Resources", "currUser.txt"));
                     }
                     OnLoginSuccess?.Invoke();
                     this.Close();
@@ -94,7 +95,7 @@ public partial class LoginForm : Form
         }
         return currentDirectory;
     }
-    private void modifyTextFileUserData(string operation, string path)
+    private void modifyTextFileUserData(string path, string operation="")
     {
         if(operation == "DELELE")
         {
