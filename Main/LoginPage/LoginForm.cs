@@ -13,6 +13,8 @@ public partial class LoginForm : Form
     {
         InitializeComponent();
     }
+    public event Action OnLoginSuccess;
+    public event Action OnRegisterRequested;
 
     private void LoginForm_Load(object sender, EventArgs e)
     {
@@ -58,6 +60,7 @@ public partial class LoginForm : Form
                        user = new UserClass(reader[1].ToString(), reader[2].ToString(), reader[0].ToString(), int.Parse(reader[3].ToString()));
                        modifyTextFileUserData("DELETE", Path.Combine(projectRoot, "Resources", "currUser.txt"));
                     }
+                    OnLoginSuccess?.Invoke();
                     this.Close();
                 }
                 catch (Exception ex)
@@ -79,10 +82,8 @@ public partial class LoginForm : Form
 
     private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
-        RegisterForm registerForm = new RegisterForm();
+        OnRegisterRequested?.Invoke();
         this.Hide();
-        
-        registerForm.Show();
 
     }
     private string getPath(string currentDirectory, int i = 5)

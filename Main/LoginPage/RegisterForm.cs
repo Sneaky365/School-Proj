@@ -13,6 +13,7 @@ public partial class RegisterForm : Form
     {
         InitializeComponent();
     }
+    public event Action OnRegisterCompleted;
 
     private void button1_Click(object sender, EventArgs e)
     {
@@ -43,7 +44,7 @@ public partial class RegisterForm : Form
 
                     user = new UserClass(textBox1.Text, textBox2.Text, userID, 0);
                     modifyTextFileUserData(Path.Combine(projectRoot, "Resources", "currUser.txt"));
-                    
+                    OnRegisterCompleted?.Invoke();
                     this.Close();
                 }catch (Exception ex)
                 {
