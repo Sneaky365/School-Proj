@@ -6,7 +6,7 @@ using System.Reflection.Metadata;
 using System.Security.Cryptography.X509Certificates;
 
 namespace LoginPage;
-public partial class LoginForm : Form
+public partial class LoginForm : Form, IData
 {
     public UserClass user;
     public LoginForm()
@@ -87,7 +87,7 @@ public partial class LoginForm : Form
         this.Hide();
 
     }
-    private string getPath(string currentDirectory, int i = 5)
+    public string getPath(string currentDirectory, int i = 5)
     {
         for (int p = 0; p < i; p++)
         {
@@ -95,7 +95,7 @@ public partial class LoginForm : Form
         }
         return currentDirectory;
     }
-    private void modifyTextFileUserData(string path, string operation = "")
+    public void modifyTextFileUserData(string path, string operation = "")
     {
         if (operation == "DELELE")
         {

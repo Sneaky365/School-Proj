@@ -6,7 +6,8 @@ using System.Data.OleDb;
 
 namespace RegisterPage;
 
-public partial class RegisterForm : Form
+public partial class RegisterForm : Form, IData
+
 {
     UserClass user;
     public RegisterForm()
@@ -23,7 +24,7 @@ public partial class RegisterForm : Form
 
         string queryS = @"INSERT INTO UserData ([PASSWORD], USERNAME, ID, HS) 
                             VALUES(@password, @username, @id, @hs)";
-        string checkAvailability = $@"SELECT USERNAME FROM UserData WHERE USERNAME='{textBox1.Text}'";
+        string checkAvailability = $@"SELECT USERNAME FROM UserData WHERE USERNAME= @username";
         string dbRelative = Path.Combine(projectRoot, "Resources", "Users.accdb");
 
         string connectionS = $@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={dbRelative};";
@@ -64,7 +65,7 @@ public partial class RegisterForm : Form
 
         }
     }
-    private string getPath(string currentDirectory, int i = 5)
+    public string getPath(string currentDirectory, int i = 5)
     {
         for (int p = 0; p < i; p++)
         {
@@ -72,7 +73,7 @@ public partial class RegisterForm : Form
         }
         return currentDirectory;
     }
-    private void modifyTextFileUserData(string path, string operation = "")
+    public void modifyTextFileUserData(string path, string operation = "")
     {
         if (operation == "DELELE")
         {
@@ -104,6 +105,7 @@ public partial class RegisterForm : Form
     private bool usernameExists(OleDbConnection connection, string checkAvailability)
     {
         OleDbCommand avaibilityCmd = new OleDbCommand(checkAvailability, connection);
+        avaibilityCmd.Parameters.AddWithValue("@username", textBox1.Text);
         OleDbDataReader avaibilityReader = avaibilityCmd.ExecuteReader();
         if (avaibilityReader.HasRows)
         {
