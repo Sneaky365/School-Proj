@@ -15,6 +15,8 @@ public partial class HomeForm : Form
         this.Hide();
 
         LoginForm loginForm = new LoginForm();
+        RegisterForm registerForm = null;
+
         loginForm.OnLoginSuccess += () =>
         {
             this.Show();
@@ -22,14 +24,24 @@ public partial class HomeForm : Form
         
         loginForm.OnRegisterRequested += () =>
         {
-            RegisterForm registerForm = new RegisterForm();
-            registerForm.OnRegisterCompleted += () => this.Show();
-            registerForm.FormClosed += (a, b) => this.Show();
+            if(registerForm == null || registerForm.IsDisposed)
+            {
+                registerForm = new RegisterForm();
+                registerForm.OnRegisterCompleted += () => this.Show();
+                registerForm.OnReturningToHome += () =>
+                {
+                    this.Show();
+                };
+                registerForm.OnReturningToLogin += () =>
+                {
+                    loginForm.Show();
+                };
+            }             
             registerForm.Show();
             this.Hide();
         };
         loginForm.FormClosed += (a, b) => this.Show();
-        
+        loginForm.OnHomeRequested += () => this.Show();
         loginForm.Show();
     }
 

@@ -14,7 +14,8 @@ public partial class RegisterForm : Form
         InitializeComponent();
     }
     public event Action OnRegisterCompleted;
-
+    public event Action OnReturningToLogin;
+    public event Action OnReturningToHome;
     private void button1_Click(object sender, EventArgs e)
     {
         string currentDirectory = Directory.GetCurrentDirectory();
@@ -22,17 +23,22 @@ public partial class RegisterForm : Form
 
         string queryS = @"INSERT INTO UserData ([PASSWORD], USERNAME, ID, HS) 
                             VALUES(@password, @username, @id, @hs)";
+        string checkAvailability = $@"SELECT USERNAME FROM UserData WHERE USERNAME='{textBox1.Text}'";
         string dbRelative = Path.Combine(projectRoot, "Resources", "Users.accdb");
-        
+
         string connectionS = $@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={dbRelative};";
         MessageBox.Show(connectionS);
         try
         {
-            using(OleDbConnection connection = new OleDbConnection(connectionS))
+            using (OleDbConnection connection = new OleDbConnection(connectionS))
             {
                 connection.Open();
                 try
                 {
+                    if (usernameExists(connection, checkAvailability))
+                    {
+                        throw new Exception("Username already exists!");
+                    }
                     OleDbCommand registerCmd = new OleDbCommand(queryS, connection);
                     string userID = Guid.NewGuid().ToString();
                     registerCmd.Parameters.AddWithValue("@password", textBox2.Text);
@@ -46,13 +52,14 @@ public partial class RegisterForm : Form
                     modifyTextFileUserData(Path.Combine(projectRoot, "Resources", "currUser.txt"));
                     OnRegisterCompleted?.Invoke();
                     this.Close();
-                }catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
 
         }
@@ -70,7 +77,7 @@ public partial class RegisterForm : Form
         if (operation == "DELELE")
         {
             File.WriteAllText(path, String.Empty);
-            
+
         }
         else
         {
@@ -79,5 +86,29 @@ public partial class RegisterForm : Form
                 sw.WriteLine(user.ID);
             }
         }
+    }
+
+    private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    {
+        textBox1.Text = "";
+        textBox2.Text = "";
+        OnReturningToLogin?.Invoke();
+        this.Close();
+    }
+
+    private void button2_Click(object sender, EventArgs e)
+    {
+        OnReturningToHome?.Invoke();
+        this.Close();
+    }
+    private bool usernameExists(OleDbConnection connection, string checkAvailability)
+    {
+        OleDbCommand avaibilityCmd = new OleDbCommand(checkAvailability, connection);
+        OleDbDataReader avaibilityReader = avaibilityCmd.ExecuteReader();
+        if (avaibilityReader.HasRows)
+        {
+            return true;
+        }
+        return false;
     }
 }

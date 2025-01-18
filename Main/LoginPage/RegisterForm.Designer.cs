@@ -33,6 +33,8 @@ partial class RegisterForm
         button1 = new Button();
         textBox1 = new TextBox();
         textBox2 = new TextBox();
+        button2 = new Button();
+        linkLabel1 = new LinkLabel();
         SuspendLayout();
         // 
         // label1
@@ -55,7 +57,7 @@ partial class RegisterForm
         // 
         // button1
         // 
-        button1.Location = new Point(340, 288);
+        button1.Location = new Point(340, 268);
         button1.Name = "button1";
         button1.Size = new Size(75, 23);
         button1.TabIndex = 2;
@@ -77,11 +79,34 @@ partial class RegisterForm
         textBox2.Size = new Size(100, 23);
         textBox2.TabIndex = 4;
         // 
+        // button2
+        // 
+        button2.Location = new Point(617, 56);
+        button2.Name = "button2";
+        button2.Size = new Size(75, 23);
+        button2.TabIndex = 5;
+        button2.Text = "Home";
+        button2.UseVisualStyleBackColor = true;
+        button2.Click += button2_Click;
+        // 
+        // linkLabel1
+        // 
+        linkLabel1.AutoSize = true;
+        linkLabel1.Location = new Point(282, 240);
+        linkLabel1.Name = "linkLabel1";
+        linkLabel1.Size = new Size(197, 15);
+        linkLabel1.TabIndex = 6;
+        linkLabel1.TabStop = true;
+        linkLabel1.Text = "Already have a account? Login here!";
+        linkLabel1.LinkClicked += linkLabel1_LinkClicked;
+        // 
         // RegisterForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(800, 450);
+        Controls.Add(linkLabel1);
+        Controls.Add(button2);
         Controls.Add(textBox2);
         Controls.Add(textBox1);
         Controls.Add(button1);
@@ -100,4 +125,6 @@ partial class RegisterForm
     private Button button1;
     private TextBox textBox1;
     private TextBox textBox2;
+    private Button button2;
+    private LinkLabel linkLabel1;
 }

@@ -15,7 +15,7 @@ public partial class LoginForm : Form
     }
     public event Action OnLoginSuccess;
     public event Action OnRegisterRequested;
-
+    public event Action OnHomeRequested;
     private void LoginForm_Load(object sender, EventArgs e)
     {
 
@@ -23,7 +23,7 @@ public partial class LoginForm : Form
 
     private void button1_Click(object sender, EventArgs e)
     {
-        
+
         string currentDirectory = Directory.GetCurrentDirectory();
         string projectRoot = getPath(currentDirectory);
 
@@ -45,10 +45,10 @@ public partial class LoginForm : Form
                 try
                 {
                     OleDbCommand loginCmd = new OleDbCommand(queryS, connection);
-                    
+
                     loginCmd.Parameters.AddWithValue("@username", textBox1.Text);
                     loginCmd.Parameters.AddWithValue("@password", textBox2.Text);
-                    
+
 
                     OleDbDataReader reader = loginCmd.ExecuteReader();
                     if (!reader.HasRows)
@@ -57,9 +57,9 @@ public partial class LoginForm : Form
                     }
                     while (reader.Read())
                     {
-                       
-                       user = new UserClass(reader["ID"].ToString(), reader["USERNAME"].ToString(), reader["PASSWORD"].ToString(), int.Parse(reader["HS"].ToString()));
-                       modifyTextFileUserData(Path.Combine(projectRoot, "Resources", "currUser.txt"));
+
+                        user = new UserClass(reader["ID"].ToString(), reader["USERNAME"].ToString(), reader["PASSWORD"].ToString(), int.Parse(reader["HS"].ToString()));
+                        modifyTextFileUserData(Path.Combine(projectRoot, "Resources", "currUser.txt"));
                     }
                     OnLoginSuccess?.Invoke();
                     this.Close();
@@ -69,15 +69,15 @@ public partial class LoginForm : Form
                     MessageBox.Show(ex.Message);
                 }
                 finally { connection.Close(); }
-                
+
             }
-            
+
         }
         catch (Exception ex)
         {
             MessageBox.Show(ex.Message);
         }
-        
+
 
     }
 
@@ -89,24 +89,30 @@ public partial class LoginForm : Form
     }
     private string getPath(string currentDirectory, int i = 5)
     {
-        for(int p = 0; p < i; p++)
+        for (int p = 0; p < i; p++)
         {
             currentDirectory = Directory.GetParent(currentDirectory).FullName;
         }
         return currentDirectory;
     }
-    private void modifyTextFileUserData(string path, string operation="")
+    private void modifyTextFileUserData(string path, string operation = "")
     {
-        if(operation == "DELELE")
+        if (operation == "DELELE")
         {
-           File.WriteAllText(path, String.Empty);
+            File.WriteAllText(path, String.Empty);
         }
         else
         {
-            using(StreamWriter sw = new StreamWriter(path))
+            using (StreamWriter sw = new StreamWriter(path))
             {
                 sw.WriteLine(user.ID);
             }
         }
+    }
+
+    private void button2_Click(object sender, EventArgs e)
+    {
+        OnHomeRequested?.Invoke();
+        this.Close();
     }
 }

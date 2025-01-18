@@ -34,6 +34,7 @@ partial class LoginForm
         textBox1 = new TextBox();
         textBox2 = new TextBox();
         linkLabel1 = new LinkLabel();
+        button2 = new Button();
         SuspendLayout();
         // 
         // button1
@@ -89,11 +90,22 @@ partial class LoginForm
         linkLabel1.Text = "Don't have an account? Click Here!";
         linkLabel1.LinkClicked += linkLabel1_LinkClicked;
         // 
+        // button2
+        // 
+        button2.Location = new Point(575, 82);
+        button2.Name = "button2";
+        button2.Size = new Size(75, 23);
+        button2.TabIndex = 5;
+        button2.Text = "Home";
+        button2.UseVisualStyleBackColor = true;
+        button2.Click += button2_Click;
+        // 
         // LoginForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(800, 450);
+        Controls.Add(button2);
         Controls.Add(linkLabel1);
         Controls.Add(textBox2);
         Controls.Add(textBox1);
@@ -115,4 +127,5 @@ partial class LoginForm
     private TextBox textBox1;
     private TextBox textBox2;
     private LinkLabel linkLabel1;
+    private Button button2;
 }
