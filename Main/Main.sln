@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data Layer", "LoginPage\Data Layer.csproj", "{A63753A6-D7CE-411B-935E-3306624A607D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data Layer", "LoginPage\Data Layer.csproj", "{A63753A6-D7CE-411B-935E-3306624A607D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomePage", "HomePage\HomePage.csproj", "{49C771BD-97EA-4D4E-8859-3DD679A4ECB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomePage", "HomePage\HomePage.csproj", "{49C771BD-97EA-4D4E-8859-3DD679A4ECB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "Game\Game.csproj", "{24BA2C8D-9AA1-42F9-8F90-6C900CAC2026}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,8 +23,15 @@ Global
 		{49C771BD-97EA-4D4E-8859-3DD679A4ECB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49C771BD-97EA-4D4E-8859-3DD679A4ECB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49C771BD-97EA-4D4E-8859-3DD679A4ECB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24BA2C8D-9AA1-42F9-8F90-6C900CAC2026}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24BA2C8D-9AA1-42F9-8F90-6C900CAC2026}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24BA2C8D-9AA1-42F9-8F90-6C900CAC2026}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24BA2C8D-9AA1-42F9-8F90-6C900CAC2026}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {966A0558-5CEE-47EE-8A1C-B2D9BF7AFBB3}
 	EndGlobalSection
 EndGlobal
