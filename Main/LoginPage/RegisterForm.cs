@@ -9,7 +9,7 @@ namespace RegisterPage;
 public partial class RegisterForm : Form, IData
 
 {
-    UserClass user;
+    public UserClass user;
     public RegisterForm()
     {
         InitializeComponent();
@@ -21,7 +21,8 @@ public partial class RegisterForm : Form, IData
     {
         string currentDirectory = Directory.GetCurrentDirectory();
         string projectRoot = getPath(currentDirectory);
-
+        textBox1.Text = textBox1.Text.Trim();
+        textBox2.Text = textBox2.Text.Trim();
         string queryS = @"INSERT INTO UserData ([PASSWORD], USERNAME, ID, HS) 
                             VALUES(@password, @username, @id, @hs)";
         string checkAvailability = $@"SELECT USERNAME FROM UserData WHERE USERNAME= @username";
@@ -49,7 +50,7 @@ public partial class RegisterForm : Form, IData
 
                     registerCmd.ExecuteNonQuery();
 
-                    user = new UserClass(textBox1.Text, textBox2.Text, userID, 0);
+                    user = new UserClass(userID, textBox1.Text, textBox2.Text, 0);
                     modifyTextFileUserData(Path.Combine(projectRoot, "Resources", "currUser.txt"));
                     OnRegisterCompleted?.Invoke();
                     this.Close();
@@ -64,6 +65,7 @@ public partial class RegisterForm : Form, IData
         {
 
         }
+        
     }
     public string getPath(string currentDirectory, int i = 5)
     {

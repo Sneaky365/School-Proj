@@ -1,3 +1,4 @@
+using Data_Layer;
 using LoginPage;
 using RegisterPage;
 using System.Data.OleDb;
@@ -21,10 +22,10 @@ public partial class HomeForm : Form
         {
             this.Show();
         };
-        
+
         loginForm.OnRegisterRequested += () =>
         {
-            if(registerForm == null || registerForm.IsDisposed)
+            if (registerForm == null || registerForm.IsDisposed)
             {
                 registerForm = new RegisterForm();
                 registerForm.OnRegisterCompleted += () => this.Show();
@@ -36,7 +37,7 @@ public partial class HomeForm : Form
                 {
                     loginForm.Show();
                 };
-            }             
+            }
             registerForm.Show();
             this.Hide();
         };
@@ -47,6 +48,38 @@ public partial class HomeForm : Form
 
     private void HomeForm_Load(object sender, EventArgs e)
     {
+        CheckIfLogined();
+    }
+    private void CheckIfLogined()
+    {
+        string p = File.ReadAllText(Path.Combine(getPath(Directory.GetCurrentDirectory()), "Resources", "currUser.txt"));
+        if (p.Length == 0)
+        {
+            button2.Visible = false;
+        }
+        else
+        {
+            button2.Visible = true;
+        }
+    }
+    public string getPath(string currentDirectory, int i = 5)
+    {
+        for (int p = 0; p < i; p++)
+        {
+            currentDirectory = Directory.GetParent(currentDirectory).FullName;
+        }
+        return currentDirectory;
+    }
 
+    private void button2_Click(object sender, EventArgs e)
+    {
+        AccountInfo infoP = new AccountInfo();
+        infoP.Show();
+
+    }
+
+    private void HomeForm_Activated(object sender, EventArgs e)
+    {
+        CheckIfLogined();
     }
 }

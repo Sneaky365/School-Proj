@@ -29,6 +29,7 @@ partial class HomeForm
     private void InitializeComponent()
     {
         button1 = new Button();
+        button2 = new Button();
         SuspendLayout();
         // 
         // button1
@@ -41,14 +42,28 @@ partial class HomeForm
         button1.UseVisualStyleBackColor = true;
         button1.Click += button1_Click;
         // 
+        // button2
+        // 
+        button2.CausesValidation = false;
+        button2.Location = new Point(77, 70);
+        button2.Name = "button2";
+        button2.Size = new Size(147, 65);
+        button2.TabIndex = 1;
+        button2.Text = "View Account Info";
+        button2.UseVisualStyleBackColor = true;
+        button2.Visible = false;
+        button2.Click += button2_Click;
+        // 
         // HomeForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(800, 450);
+        Controls.Add(button2);
         Controls.Add(button1);
         Name = "HomeForm";
         Text = "Form1";
+        Activated += HomeForm_Activated;
         Load += HomeForm_Load;
         ResumeLayout(false);
     }
@@ -56,4 +71,5 @@ partial class HomeForm
     #endregion
 
     private Button button1;
+    private Button button2;
 }

@@ -16,6 +16,7 @@ public partial class LoginForm : Form, IData
     public event Action OnLoginSuccess;
     public event Action OnRegisterRequested;
     public event Action OnHomeRequested;
+    public string projectRoot;
     private void LoginForm_Load(object sender, EventArgs e)
     {
 
@@ -25,7 +26,7 @@ public partial class LoginForm : Form, IData
     {
 
         string currentDirectory = Directory.GetCurrentDirectory();
-        string projectRoot = getPath(currentDirectory);
+        projectRoot = getPath(currentDirectory);
 
 
         string dbRelative = Path.Combine(projectRoot, "Resources", "Users.accdb");
