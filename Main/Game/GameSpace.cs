@@ -89,11 +89,8 @@ namespace Game
                 if(result == DialogResult.Yes)
                 {
                     this.Close();
-                    GameSpace gs = new GameSpace(); 
+                    GameSpace gs = new GameSpace();
                     gs.Show();
-                    //this.ShowDialog();
-                    //this.InitializeComponent();
-                    
                 }
                 else
                 {
