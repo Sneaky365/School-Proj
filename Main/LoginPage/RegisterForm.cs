@@ -65,7 +65,7 @@ public partial class RegisterForm : Form, IDir
         {
 
         }
-        
+
     }
     public string getPath(string currentDirectory, int i = 5)
     {
@@ -114,5 +114,10 @@ public partial class RegisterForm : Form, IDir
             return true;
         }
         return false;
+    }
+
+    private void RegisterForm_Load(object sender, EventArgs e)
+    {
+
     }
 }

@@ -14,8 +14,6 @@ namespace Game
     public partial class GameSpace : Form
      
     {
-        public int allTimeScore;
-        public int maxScore = 0;
         public int score;
         Shape currentShape;
         Shape nextShape;
@@ -206,7 +204,7 @@ namespace Game
                 if (j == -1)
                 {
                     score++;
-                    if (score > maxScore) maxScore = score;
+                    
                     label1.Text = "Score: " + score;
                     label2.Text = "Level: " + score / 10;
                     timer.Interval -= 10;

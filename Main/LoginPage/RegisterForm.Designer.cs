@@ -114,6 +114,7 @@ partial class RegisterForm
         Controls.Add(label1);
         Name = "RegisterForm";
         Text = "Form1";
+        Load += RegisterForm_Load;
         ResumeLayout(false);
         PerformLayout();
     }

@@ -5,6 +5,7 @@ using Game;
 using System.Data.Common;
 using System.Data.OleDb;
 using System.Drawing.Text;
+using Accessibility;
 namespace HomePage;
 
 public partial class HomeForm : Form
@@ -12,12 +13,14 @@ public partial class HomeForm : Form
     public string currentDirectory;
     public string connectionS; 
     public UserClass user; 
+    public string currID;
     public HomeForm()
     {
         
         InitializeComponent();
         currentDirectory = getPath(Directory.GetCurrentDirectory());
         connectionS = $@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(currentDirectory, "Resources", "Users.accdb")}";
+        currID = getID();
     }
     
     private bool handleReqsOnEmpty()
@@ -116,6 +119,9 @@ public partial class HomeForm : Form
     {
         this.Hide();
         AccountInfo infoP = new AccountInfo();
+        if (user == null) getUserData();
+        updateUserData();
+        
         
         infoP.Show();
         infoP.onHomeRequested += () => this.Show();
@@ -126,11 +132,37 @@ public partial class HomeForm : Form
     {
 
         CheckIfLogined();
+        currID = getID();
     }
 
     private void updateUserData()
     {
-        
+        string queryS = @"UPDATE UserData SET HS=@hs WHERE ID=@id";
+        try
+        {
+            using (OleDbConnection connection = new OleDbConnection(connectionS))
+            {
+                connection.Open();
+                try
+                {
+                    using (OleDbCommand command = new OleDbCommand(queryS, connection))
+                    {
+                        command.Parameters.AddWithValue("@id", currID);
+                        command.Parameters.AddWithValue("@hs", user.HighestScore);
+                        command.ExecuteNonQuery();
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }      
+        }
+        catch(Exception ex)
+        {
+            MessageBox.Show(ex.Message);
+        }
     }
     private void getUserData()
     {
@@ -156,7 +188,7 @@ public partial class HomeForm : Form
     }
     private string getID()
     {
-        using(StreamReader streamReader = new StreamReader(currentDirectory))
+        using(StreamReader streamReader = new StreamReader(Path.Combine(currentDirectory, "Resources", "currUser.txt")))
         {
             return streamReader.ReadLine();//Err Handling?
         }
