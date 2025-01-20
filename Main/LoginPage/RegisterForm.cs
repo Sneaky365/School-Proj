@@ -6,7 +6,7 @@ using System.Data.OleDb;
 
 namespace RegisterPage;
 
-public partial class RegisterForm : Form, IData
+public partial class RegisterForm : Form, IDir
 
 {
     public UserClass user;

@@ -1,6 +1,7 @@
 using Data_Layer;
 using LoginPage;
 using RegisterPage;
+using Game;
 using System.Data.Common;
 using System.Data.OleDb;
 namespace HomePage;
@@ -53,15 +54,21 @@ public partial class HomeForm : Form
     }
     private bool handleReqsOnLogined()
     {
-
+        GameSpace gs = new GameSpace();
+        gs.Activate();
+        gs.Show();
+        gs.onHomeRequested += () => this.Show();
+        
+        
         return true;
     }
     private void button1_Click(object sender, EventArgs e)
     {
+        
+        var d = button2.Visible ? handleReqsOnLogined() : handleReqsOnEmpty();
         this.Hide();
-        
-        var d = button2.Visible ? handleReqsOnEmpty() : handleReqsOnEmpty();
-        
+
+
     }
 
     private void HomeForm_Load(object sender, EventArgs e)

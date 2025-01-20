@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Data_Layer;
-public partial class AccountInfo : Form, IData
+public partial class AccountInfo : Form, IDir
 {
     public event Action OnLogout;
     public string projRoot;

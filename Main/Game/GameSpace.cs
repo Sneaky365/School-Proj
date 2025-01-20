@@ -10,13 +10,15 @@ using System.Windows.Forms;
 
 namespace Game
 {
-    public partial class Form1 : Form
+   
+    public partial class GameSpace : Form
+     
     {
         public int score;
         Shape currentShape;
         Shape nextShape;
         Timer timer = new Timer();
-        public Form1()
+        public GameSpace()
         {
             InitializeComponent();
             loadCanvas();
@@ -45,7 +47,7 @@ namespace Game
         }
         int currentX;
         int currentY;
-
+        public event Action onHomeRequested;
         private Shape getRandomShapeWithCenterAligned()
         {
             var shape = ShapesHandler.GetRandomShape();
@@ -70,11 +72,22 @@ namespace Game
         }
         private void checkIfGameOver()
         {
+            
             if (currentY < 0)
             {
-                timer.Stop();
-                MessageBox.Show("Game Over");
+                /*timer.Stop();
+                DialogResult result = MessageBox.Show("Game Over! Do you wish to restart?", "", MessageBoxButtons.YesNo);
+                if(result == DialogResult.Yes)
+                {
+                    Application.Restart();
+                }
+                else
+                {
+                    onHomeRequested?.Invoke();
+                    this.Close();
+                }*/
                 Application.Restart();
+                
             }
         }
 
@@ -242,6 +255,11 @@ namespace Game
             pictureBox2.Image = nextShapeBitmap;
 
             return shape;
+        }
+
+        private void GameSpace_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
