@@ -130,6 +130,7 @@ partial class AccountInfo
         button2.TabIndex = 9;
         button2.Text = "Log out";
         button2.UseVisualStyleBackColor = true;
+        button2.Click += button2_Click;
         // 
         // AccountInfo
         // 

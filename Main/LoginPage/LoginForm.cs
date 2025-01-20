@@ -60,7 +60,7 @@ public partial class LoginForm : Form, IData
                     {
 
                         user = new UserClass(reader["ID"].ToString(), reader["USERNAME"].ToString(), reader["PASSWORD"].ToString(), int.Parse(reader["HS"].ToString()));
-                        modifyTextFileUserData(Path.Combine(projectRoot, "Resources", "currUser.txt"));
+                        modifyTextFileUserData(projectRoot);
                     }
                     OnLoginSuccess?.Invoke();
                     this.Close();
@@ -96,8 +96,9 @@ public partial class LoginForm : Form, IData
         }
         return currentDirectory;
     }
-    public void modifyTextFileUserData(string path, string operation = "")
+    public void modifyTextFileUserData(string root, string operation = "")
     {
+        string path = Path.Combine(root, "Resources", "currUser.txt");
         if (operation == "DELELE")
         {
             File.WriteAllText(path, String.Empty);

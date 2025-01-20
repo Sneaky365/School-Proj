@@ -8,7 +8,10 @@ public partial class HomeForm : Form
 {
     public HomeForm()
     {
+        
         InitializeComponent();
+        
+
     }
 
     private void button1_Click(object sender, EventArgs e)
@@ -19,6 +22,7 @@ public partial class HomeForm : Form
         RegisterForm registerForm = null;
         AccountInfo accountInfo = new AccountInfo();
 
+        
         loginForm.OnLoginSuccess += () =>
         {
             this.Show();
@@ -45,12 +49,15 @@ public partial class HomeForm : Form
         loginForm.FormClosed += (a, b) => this.Show();
         loginForm.OnHomeRequested += () => this.Show();
         loginForm.Show();
-        accountInfo.onHomeRequested += () => this.Show();
+
+        
     }
 
     private void HomeForm_Load(object sender, EventArgs e)
     {
+        
         CheckIfLogined();
+        
     }
     private void CheckIfLogined()
     {
@@ -77,13 +84,15 @@ public partial class HomeForm : Form
     {
         this.Hide();
         AccountInfo infoP = new AccountInfo();
+        
         infoP.Show();
         infoP.onHomeRequested += () => this.Show();
-
+        infoP.OnLogout += () => this.Show();
     }
 
     private void HomeForm_Activated(object sender, EventArgs e)
     {
+        
         CheckIfLogined();
     }
 }

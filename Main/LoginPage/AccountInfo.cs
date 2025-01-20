@@ -14,9 +14,12 @@ using System.Windows.Forms;
 namespace Data_Layer;
 public partial class AccountInfo : Form, IData
 {
+    public event Action OnLogout;
+    public string projRoot;
     public AccountInfo()
     {
         InitializeComponent();
+        projRoot = getPath(Directory.GetCurrentDirectory());
     }
     LoginForm loginForm;
     public event Action onHomeRequested;
@@ -28,7 +31,7 @@ public partial class AccountInfo : Form, IData
         textBox1.Text = data[0];
         textBox2.Text = data[1];
         textBox3.Text = data[2];
-       
+
     }
 
     private void groupBox1_Enter(object sender, EventArgs e)
@@ -45,7 +48,7 @@ public partial class AccountInfo : Form, IData
     {
         List<string> arr = new List<string>();
         string queryS = @"SELECT USERNAME, HS, ID FROM UserData WHERE ID= @id";
-        string projRoot = getPath(Directory.GetCurrentDirectory());
+        //string projRoot = getPath(Directory.GetCurrentDirectory());
         string connectionS = $@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(projRoot, "Resources", "Users.accdb")};";
         string id = "";
         using (StreamReader sr = new StreamReader(Path.Combine(projRoot, "Resources", "currUser.txt")))
@@ -68,10 +71,10 @@ public partial class AccountInfo : Form, IData
                         arr.Add(reader["ID"].ToString());
                         arr.Add(reader["USERNAME"].ToString());
                         arr.Add(reader["HS"].ToString());
-                       
+
                         return arr;
                     }
-                   
+
                 }
                 catch (Exception ex)
                 {
@@ -83,16 +86,17 @@ public partial class AccountInfo : Form, IData
             }
 
         }
-        
+
         return arr;
     }
 
-    public void modifyTextFileUserData(string path, string operation = "")
+    public void modifyTextFileUserData(string root, string operation = "")
     {
-        if (operation == "DELELE")
+        string path = Path.Combine(root, "Resources", "currUser.txt");
+        if (operation == "DELETE")
         {
             File.WriteAllText(path, String.Empty);
-        }       
+        }
         else
         {
             using (StreamWriter sw = new StreamWriter(path))
@@ -108,5 +112,12 @@ public partial class AccountInfo : Form, IData
             currentDirectory = Directory.GetParent(currentDirectory).FullName;
         }
         return currentDirectory;
+    }
+
+    private void button2_Click(object sender, EventArgs e)
+    {
+        modifyTextFileUserData(projRoot, "DELETE");
+        OnLogout?.Invoke();
+        this.Close();
     }
 }
