@@ -82,8 +82,8 @@ namespace Game
             }
         public static Shape GetRandomShape()
         {
-            //var shape = shapes[new Random().Next(shapes.Length)];
-            var shape = shapes[1];
+            var shape = shapes[new Random().Next(shapes.Length)];
+            
             return shape;
         }
     }
