@@ -12,6 +12,7 @@ namespace Game
 {
     public partial class Form1 : Form
     {
+        public int score;
         Shape currentShape;
         Shape nextShape;
         Timer timer = new Timer();
@@ -167,7 +168,7 @@ namespace Game
 
             pictureBox1.Image = workingBitmap;
         }
-        int score;
+        
         public void clearFilledRowsAndUpdateScore()
         {
             for (int i = 0; i < height; i++)

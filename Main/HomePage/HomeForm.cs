@@ -17,6 +17,7 @@ public partial class HomeForm : Form
 
         LoginForm loginForm = new LoginForm();
         RegisterForm registerForm = null;
+        AccountInfo accountInfo = new AccountInfo();
 
         loginForm.OnLoginSuccess += () =>
         {
@@ -44,6 +45,7 @@ public partial class HomeForm : Form
         loginForm.FormClosed += (a, b) => this.Show();
         loginForm.OnHomeRequested += () => this.Show();
         loginForm.Show();
+        accountInfo.onHomeRequested += () => this.Show();
     }
 
     private void HomeForm_Load(object sender, EventArgs e)
@@ -73,8 +75,10 @@ public partial class HomeForm : Form
 
     private void button2_Click(object sender, EventArgs e)
     {
+        this.Hide();
         AccountInfo infoP = new AccountInfo();
         infoP.Show();
+        infoP.onHomeRequested += () => this.Show();
 
     }
 
