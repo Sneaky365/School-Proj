@@ -24,6 +24,25 @@ namespace Game
                     },
                     new Shape {
                         Width = 1,
+                        Height = 12,
+                        Dots = new int[,]
+                        {
+                            { 1 },
+                            { 1 },
+                            { 1 },
+                            { 1 },
+                            { 1 },
+                            { 1 },
+                            { 1 },
+                            { 1 },
+                            { 1 },
+                            { 1 },
+                            { 1 },
+                            { 1 }
+                        }
+                    },
+                    new Shape {
+                        Width = 1,
                         Height = 4,
                         Dots = new int[,]
                         {
@@ -82,7 +101,8 @@ namespace Game
             }
         public static Shape GetRandomShape()
         {
-            var shape = shapes[new Random().Next(shapes.Length)];
+            //var shape = shapes[new Random().Next(shapes.Length)];
+            var shape = shapes[1];
             return shape;
         }
     }

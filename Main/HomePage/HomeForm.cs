@@ -73,6 +73,7 @@ public partial class HomeForm : Form
             {
                 user.HighestScore = newHS;
             }
+            this.Show();
         };
         
         

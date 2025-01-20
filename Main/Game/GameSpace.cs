@@ -88,7 +88,12 @@ namespace Game
                 DialogResult result = MessageBox.Show("Game Over! Do you wish to restart?", "", MessageBoxButtons.YesNo);
                 if(result == DialogResult.Yes)
                 {
-                    Application.Restart();
+                    this.Close();
+                    GameSpace gs = new GameSpace(); 
+                    gs.Show();
+                    //this.ShowDialog();
+                    //this.InitializeComponent();
+                    
                 }
                 else
                 {
