@@ -54,7 +54,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Game.cs" />
+    <Compile Include="Shape.cs" />
     <Compile Include="ShapesHandler.cs" />
     <EmbeddedResource Include="GameSpace.resx">
       <DependentUpon>GameSpace.cs</DependentUpon>
