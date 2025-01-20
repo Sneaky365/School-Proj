@@ -1,11 +1,13 @@
 using Data_Layer;
 using LoginPage;
 using RegisterPage;
+using System.Data.Common;
 using System.Data.OleDb;
 namespace HomePage;
 
 public partial class HomeForm : Form
 {
+    
     public HomeForm()
     {
         
@@ -13,16 +15,14 @@ public partial class HomeForm : Form
         
 
     }
-
-    private void button1_Click(object sender, EventArgs e)
+    
+    private bool handleReqsOnEmpty()
     {
-        this.Hide();
-
         LoginForm loginForm = new LoginForm();
         RegisterForm registerForm = null;
         AccountInfo accountInfo = new AccountInfo();
 
-        
+
         loginForm.OnLoginSuccess += () =>
         {
             this.Show();
@@ -49,7 +49,18 @@ public partial class HomeForm : Form
         loginForm.FormClosed += (a, b) => this.Show();
         loginForm.OnHomeRequested += () => this.Show();
         loginForm.Show();
+        return true;
+    }
+    private bool handleReqsOnLogined()
+    {
 
+        return true;
+    }
+    private void button1_Click(object sender, EventArgs e)
+    {
+        this.Hide();
+        
+        var d = button2.Visible ? handleReqsOnEmpty() : handleReqsOnEmpty();
         
     }
 
