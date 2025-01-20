@@ -120,4 +120,9 @@ public partial class AccountInfo : Form, IDir
         OnLogout?.Invoke();
         this.Close();
     }
+
+    private void AccountInfo_Activated(object sender, EventArgs e)
+    {
+
+    }
 }

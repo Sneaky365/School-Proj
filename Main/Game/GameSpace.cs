@@ -14,6 +14,8 @@ namespace Game
     public partial class GameSpace : Form
      
     {
+        public int allTimeScore;
+        public int maxScore = 0;
         public int score;
         Shape currentShape;
         Shape nextShape;
@@ -47,7 +49,8 @@ namespace Game
         }
         int currentX;
         int currentY;
-        public event Action onHomeRequested;
+        public event Action<int> onHomeRequested;
+
         private Shape getRandomShapeWithCenterAligned()
         {
             var shape = ShapesHandler.GetRandomShape();
@@ -91,7 +94,7 @@ namespace Game
                 }
                 else
                 {
-                    onHomeRequested?.Invoke();
+                    onHomeRequested?.Invoke(score);
                     this.Close();
                 }
                 
@@ -203,6 +206,7 @@ namespace Game
                 if (j == -1)
                 {
                     score++;
+                    if (score > maxScore) maxScore = score;
                     label1.Text = "Score: " + score;
                     label2.Text = "Level: " + score / 10;
                     timer.Interval -= 10;

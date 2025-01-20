@@ -4,17 +4,20 @@ using RegisterPage;
 using Game;
 using System.Data.Common;
 using System.Data.OleDb;
+using System.Drawing.Text;
 namespace HomePage;
 
 public partial class HomeForm : Form
 {
-    
+    public string currentDirectory;
+    public string connectionS; 
+    public UserClass user; 
     public HomeForm()
     {
         
         InitializeComponent();
-        
-
+        currentDirectory = getPath(Directory.GetCurrentDirectory());
+        connectionS = $@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(currentDirectory, "Resources", "Users.accdb")}";
     }
     
     private bool handleReqsOnEmpty()
@@ -54,13 +57,24 @@ public partial class HomeForm : Form
     }
     private bool handleReqsOnLogined()
     {
+        getUserData();
         GameSpace gs = new GameSpace();
-        gs.Activate();
+        
+        
+        gs.Activated += (sender, b) => { };
+        
         gs.Show();
-        gs.onHomeRequested += () => this.Show();
+        gs.onHomeRequested += (newHS) =>
+        {
+            if(newHS > user.HighestScore)
+            {
+                user.HighestScore = newHS;
+            }
+        };
         
         
         return true;
+        
     }
     private void button1_Click(object sender, EventArgs e)
     {
@@ -110,7 +124,41 @@ public partial class HomeForm : Form
 
     private void HomeForm_Activated(object sender, EventArgs e)
     {
-        
+
         CheckIfLogined();
+    }
+
+    private void updateUserData()
+    {
+        
+    }
+    private void getUserData()
+    {
+        
+        string queryS = @"SELECT ID, [PASSWORD], USERNAME, HS FROM UserData WHERE ID=@id";
+        
+        using (OleDbConnection connection = new OleDbConnection(connectionS))
+        {
+            connection.Open();
+            using(OleDbCommand command = new OleDbCommand(queryS, connection))
+            {
+                command.Parameters.AddWithValue("@id", getID());
+                OleDbDataReader reader = command.ExecuteReader();
+                if(reader.Read())
+                {
+                    user = new UserClass(reader["ID"].ToString(), reader["USERNAME"].ToString(), reader["PASSWORD"].ToString(), int.Parse(reader["HS"].ToString()));
+                }
+            }
+            connection.Close();
+
+        }
+        
+    }
+    private string getID()
+    {
+        using(StreamReader streamReader = new StreamReader(currentDirectory))
+        {
+            return streamReader.ReadLine();//Err Handling?
+        }
     }
 }

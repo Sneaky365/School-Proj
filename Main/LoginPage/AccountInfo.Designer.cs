@@ -149,6 +149,7 @@ partial class AccountInfo
         Controls.Add(pictureBox1);
         Name = "AccountInfo";
         Text = "AccountInfo";
+        Activated += AccountInfo_Activated;
         Load += AccountInfo_Load;
         ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
         ResumeLayout(false);
