@@ -63,9 +63,17 @@ namespace Game
                 {
                     if (currentShape.Dots[j, i] == 1)
                     {
-                        checkIfGameOver();
+                        try
+                        {
+                            DotArray[currentX + i, currentY + j] = 1;
+                        }catch(Exception e)
+                        {
+                            checkIfGameOver();
+                            break;
+                        }
+                        
 
-                        DotArray[currentX + i, currentY + j] = 1;
+                        
                     }
                 }
             }
@@ -75,7 +83,7 @@ namespace Game
             
             if (currentY < 0)
             {
-                /*timer.Stop();
+                timer.Stop();
                 DialogResult result = MessageBox.Show("Game Over! Do you wish to restart?", "", MessageBoxButtons.YesNo);
                 if(result == DialogResult.Yes)
                 {
@@ -85,8 +93,7 @@ namespace Game
                 {
                     onHomeRequested?.Invoke();
                     this.Close();
-                }*/
-                Application.Restart();
+                }
                 
             }
         }
