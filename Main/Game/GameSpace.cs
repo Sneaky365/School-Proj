@@ -38,7 +38,8 @@ namespace Game
         int dotSize = 20;
         private void loadCanvas()
         {
-
+            pictureBox1.Height = height * dotSize;
+            pictureBox1.Width = width * dotSize;
             canvasBitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             canvasGraphics = Graphics.FromImage(canvasBitmap);
             canvasGraphics.FillRectangle(Brushes.LightGray, 0, 0, canvasBitmap.Width, canvasBitmap.Height);
@@ -53,7 +54,7 @@ namespace Game
         {
             var shape = ShapesHandler.GetRandomShape();
             currentX = 7;
-            currentY = -shape.Height;
+            currentY = -shape.Height + 1;
             return shape;
         }
         private void updateCanvasDotArrayWithCurrentShape()
@@ -64,17 +65,9 @@ namespace Game
                 {
                     if (currentShape.Dots[j, i] == 1)
                     {
-                        try
-                        {
-                            DotArray[currentX + i, currentY + j] = 1;
-                        }catch(Exception e)
-                        {
-                            checkIfGameOver();
-                            break;
-                        }
-                        
+                        checkIfGameOver();
 
-                        
+                        DotArray[currentX + i, currentY + j] = 1;
                     }
                 }
             }
@@ -165,8 +158,14 @@ namespace Game
                 case Keys.Up:
                     currentShape.turn();
                     break;
+
+                //case Keys.Space:
+                //    currentY =      ;
+                //    break;
+
                 default:
                     return;
+
             }
 
             var isMoveSuccess = moveShapeIfPossible(horizontalMove, verticalMove);
@@ -208,7 +207,6 @@ namespace Game
                     score++;
                     
                     label1.Text = "Score: " + score;
-                    label2.Text = "Level: " + score / 10;
                     timer.Interval -= 10;
 
                     for (j = 0; j < width; j++)
@@ -266,11 +264,6 @@ namespace Game
             pictureBox2.Image = nextShapeBitmap;
 
             return shape;
-        }
-
-        private void GameSpace_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
