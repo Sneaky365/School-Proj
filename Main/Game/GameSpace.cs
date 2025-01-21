@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.AxHost;
 
 namespace Game
 {
@@ -42,9 +43,43 @@ namespace Game
             pictureBox1.Width = width * dotSize;
             canvasBitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             canvasGraphics = Graphics.FromImage(canvasBitmap);
-            canvasGraphics.FillRectangle(Brushes.LightGray, 0, 0, canvasBitmap.Width, canvasBitmap.Height);
+            canvasGraphics.FillRectangle(Brushes.DarkSlateGray, 0, 0, canvasBitmap.Width, canvasBitmap.Height);
+            drawGrid(canvasGraphics);
             pictureBox1.Image = canvasBitmap;
             DotArray = new int[width, height];
+        }
+        private void drawGrid(Graphics g)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    int cellX = x * dotSize;
+                    int cellY = y * dotSize;
+
+                    g.DrawRectangle(Pens.Gray, cellX, cellY, dotSize, dotSize);
+                }
+            }
+        }
+        private void updateCanvas()
+        {
+            canvasGraphics.FillRectangle(Brushes.DarkSlateGray, 0, 0, canvasBitmap.Width, canvasBitmap.Height);
+
+            drawGrid(canvasGraphics);
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    if (DotArray[x, y] == 1)
+                    {
+                        canvasGraphics.FillRectangle(Brushes.Black, x * dotSize, y * dotSize, dotSize, dotSize);
+
+                        canvasGraphics.DrawRectangle(Pens.Black, x * dotSize, y * dotSize, dotSize, dotSize);
+                    }
+                }
+            }
+            pictureBox1.Image = canvasBitmap;
         }
         int currentX;
         int currentY;
@@ -65,12 +100,19 @@ namespace Game
                 {
                     if (currentShape.Dots[j, i] == 1)
                     {
-                        checkIfGameOver();
-
-                        DotArray[currentX + i, currentY + j] = 1;
+                        try
+                        {
+                            DotArray[currentX + i, currentY + j] = 1;
+                        }
+                        catch (Exception)
+                        {
+                            checkIfGameOver();
+                            break;
+                        }
                     }
                 }
             }
+            updateCanvas();
         }
         private void checkIfGameOver()
         {
@@ -90,7 +132,6 @@ namespace Game
                     onHomeRequested?.Invoke(score);
                     this.Close();
                 }
-                
             }
         }
 
@@ -112,7 +153,7 @@ namespace Game
 
             currentX = newX;
             currentY = newY;
-
+            canHold = true;
             drawShape();
 
             return true;
@@ -159,9 +200,13 @@ namespace Game
                     currentShape.turn();
                     break;
 
-                //case Keys.Space:
-                //    currentY =      ;
-                //    break;
+                case Keys.Space:
+                    while (moveShapeIfPossible(1, 0)) { }
+                    break;
+
+                case Keys.C:
+                    holdShape();
+                    break;
 
                 default:
                     return;
@@ -232,7 +277,7 @@ namespace Game
                         );
                 }
             }
-
+            updateCanvas();
             pictureBox1.Image = canvasBitmap;
         }
 
@@ -254,9 +299,15 @@ namespace Game
             {
                 for (int j = 0; j < shape.Width; j++)
                 {
-                    nextShapeGraphics.FillRectangle(
-                        shape.Dots[i, j] == 1 ? Brushes.Black : Brushes.LightGray,
-                        (startX + j) * dotSize, (startY + i) * dotSize, dotSize, dotSize);
+                    if (shape.Dots[i, j] == 1)
+                    {
+                        nextShapeGraphics.FillRectangle(
+                            shape.Dots[i, j] == 1 ? Brushes.Black : Brushes.LightGray,
+                            (startX + j) * dotSize, (startY + i) * dotSize, dotSize, dotSize);
+                        nextShapeGraphics.DrawRectangle(
+                            Pens.White,
+                            (startX + j) * dotSize, (startY + i) * dotSize, dotSize, dotSize);
+                    }
                 }
             }
 
@@ -264,6 +315,72 @@ namespace Game
             pictureBox2.Image = nextShapeBitmap;
 
             return shape;
+        }
+        private Shape heldShape = null;
+        private bool canHold = true;
+        private void holdShape()
+        {
+            if (!canHold) return;
+            canHold = false;
+
+            if (heldShape == null)
+            {
+                heldShape = currentShape;
+                currentShape = getNextShape();
+            }
+            else
+            {
+                var temp = currentShape;
+                currentShape = heldShape;
+                heldShape = temp;
+            }
+            currentX = (width - currentShape.Width) / 2;
+            currentY = 0;
+            drawHoldShape();
+            updateCanvas();
+        }
+        Bitmap holdShapeBitmap;
+        Graphics holdShapeGraphics;
+        private void drawHoldShape()
+        {
+            if (heldShape != null)
+            {
+                holdShapeBitmap = new Bitmap(6 * dotSize, 6 * dotSize);
+                holdShapeGraphics = Graphics.FromImage(holdShapeBitmap);
+
+                holdShapeGraphics.FillRectangle(Brushes.LightGray, 0, 0, holdShapeBitmap.Width, holdShapeBitmap.Height);
+
+                var startX = (6 - heldShape.Width) / 2;
+                var startY = (6 - heldShape.Height) / 2;
+
+                for (int i = 0; i < heldShape.Height; i++)
+                {
+                    for (int j = 0; j < heldShape.Width; j++)
+                    {
+                        if (heldShape.Dots[i, j] == 1)
+                        {
+                            holdShapeGraphics.FillRectangle(
+                                Brushes.Black,
+                                (startX + j) * dotSize, (startY + i) * dotSize, dotSize, dotSize
+                            );
+
+                            holdShapeGraphics.DrawRectangle(
+                                Pens.White,
+                                (startX + j) * dotSize, (startY + i) * dotSize, dotSize, dotSize
+                            );
+                        }
+                    }
+                }
+
+                pictureBox3.Size = holdShapeBitmap.Size; 
+                pictureBox3.Image = holdShapeBitmap;
+
+                holdShapeGraphics.Dispose();
+            }
+            else
+            {
+                pictureBox3.Image = null;
+            }
         }
     }
 }
