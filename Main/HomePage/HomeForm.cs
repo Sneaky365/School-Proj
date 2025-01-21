@@ -12,18 +12,18 @@ namespace HomePage;
 public partial class HomeForm : Form
 {
     public string currentDirectory;
-    public string connectionS; 
-    public UserClass user; 
+    public string connectionS;
+    public UserClass user;
     public string currID;
     public HomeForm()
     {
-        
+
         InitializeComponent();
         currentDirectory = getPath(Directory.GetCurrentDirectory());
         connectionS = $@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(currentDirectory, "Resources", "Users.accdb")}";
         currID = getID();
     }
-    
+
     private bool handleReqsOnEmpty()
     {
         LoginForm loginForm = new LoginForm();
@@ -63,30 +63,30 @@ public partial class HomeForm : Form
     {
         getUserData();
         GameSpace gs = new GameSpace();
-        
-        
+
+
         gs.Activated += (sender, b) => { };
-        
+
         gs.Show();
         gs.onHomeRequested += (newHS) =>
         {
-            if(newHS > user.HighestScore)
+            if (newHS > user.HighestScore)
             {
                 MessageBox.Show(newHS.ToString());
                 user.HighestScore = newHS;
                 updateUserData();
-                
+
             }
             this.Show();
         };
-        
-        
+
+
         return true;
-        
+
     }
     private void button1_Click(object sender, EventArgs e)
     {
-        
+
         var d = button2.Visible ? handleReqsOnLogined() : handleReqsOnEmpty();
         this.Hide();
 
@@ -95,9 +95,9 @@ public partial class HomeForm : Form
 
     private void HomeForm_Load(object sender, EventArgs e)
     {
-        
+
         CheckIfLogined();
-        
+
     }
     private void CheckIfLogined()
     {
@@ -126,12 +126,12 @@ public partial class HomeForm : Form
         AccountInfo infoP = new AccountInfo();
         if (user == null) getUserData();
         updateUserData();
-        
-        
+
+
         infoP.Show();
         infoP.onHomeRequested += () => this.Show();
         infoP.OnLogout += () => this.Show();
-    }       
+    }
 
     private void HomeForm_Activated(object sender, EventArgs e)
     {
@@ -142,7 +142,7 @@ public partial class HomeForm : Form
 
     private void updateUserData()
     {
-        string queryS = @"UPDATE UserData SET HS=@hs WHERE ID=@id"; 
+        string queryS = @"UPDATE UserData SET HS=@hs WHERE ID=@id";
 
         try
         {
@@ -157,7 +157,7 @@ public partial class HomeForm : Form
                         command.Parameters.AddWithValue("@id", currID);
                         int rowsAffected = command.ExecuteNonQuery();
 
-                        
+
                         MessageBox.Show(user.HighestScore.ToString());
                     }
                 }
@@ -165,26 +165,26 @@ public partial class HomeForm : Form
                 {
                     MessageBox.Show(ex.Message);
                 }
-            }      
+            }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             MessageBox.Show(ex.Message);
         }
     }
     private void getUserData()
     {
-        
+
         string queryS = @"SELECT ID, [PASSWORD], USERNAME, HS FROM UserData WHERE ID=@id";
-        
+
         using (OleDbConnection connection = new OleDbConnection(connectionS))
         {
             connection.Open();
-            using(OleDbCommand command = new OleDbCommand(queryS, connection))
+            using (OleDbCommand command = new OleDbCommand(queryS, connection))
             {
                 command.Parameters.AddWithValue("@id", getID());
                 OleDbDataReader reader = command.ExecuteReader();
-                if(reader.Read())
+                if (reader.Read())
                 {
                     user = new UserClass(reader["ID"].ToString(), reader["USERNAME"].ToString(), reader["PASSWORD"].ToString(), int.Parse(reader["HS"].ToString()));
                 }
@@ -192,13 +192,23 @@ public partial class HomeForm : Form
             connection.Close();
 
         }
-        
+
     }
     private string getID()
     {
-        using(StreamReader streamReader = new StreamReader(Path.Combine(currentDirectory, "Resources", "currUser.txt")))
+        using (StreamReader streamReader = new StreamReader(Path.Combine(currentDirectory, "Resources", "currUser.txt")))
         {
             return streamReader.ReadLine();//Err Handling?
         }
+    }
+
+    private void button3_Click(object sender, EventArgs e)
+    {
+        Leaderboard leaderboard = new Leaderboard();
+        leaderboard.Show();
+        leaderboard.onHomeReq += () =>
+        {
+            this.Show();
+        };
     }
 }

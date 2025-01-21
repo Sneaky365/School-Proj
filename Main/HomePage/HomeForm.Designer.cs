@@ -30,6 +30,7 @@ partial class HomeForm
     {
         button1 = new Button();
         button2 = new Button();
+        button3 = new Button();
         SuspendLayout();
         // 
         // button1
@@ -54,11 +55,22 @@ partial class HomeForm
         button2.Visible = false;
         button2.Click += button2_Click;
         // 
+        // button3
+        // 
+        button3.Location = new Point(541, 80);
+        button3.Name = "button3";
+        button3.Size = new Size(104, 44);
+        button3.TabIndex = 2;
+        button3.Text = "Leaderboard";
+        button3.UseVisualStyleBackColor = true;
+        button3.Click += button3_Click;
+        // 
         // HomeForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(800, 450);
+        Controls.Add(button3);
         Controls.Add(button2);
         Controls.Add(button1);
         Name = "HomeForm";
@@ -72,4 +84,5 @@ partial class HomeForm
 
     private Button button1;
     private Button button2;
+    private Button button3;
 }
