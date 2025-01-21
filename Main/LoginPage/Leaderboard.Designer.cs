@@ -31,6 +31,7 @@ partial class Leaderboard
         button1 = new Button();
         panel1 = new Panel();
         comboBox1 = new ComboBox();
+        label3 = new Label();
         SuspendLayout();
         // 
         // button1
@@ -45,9 +46,9 @@ partial class Leaderboard
         // 
         // panel1
         // 
-        panel1.Location = new Point(243, 24);
+        panel1.Location = new Point(249, 87);
         panel1.Name = "panel1";
-        panel1.Size = new Size(303, 396);
+        panel1.Size = new Size(297, 333);
         panel1.TabIndex = 1;
         // 
         // comboBox1
@@ -60,11 +61,22 @@ partial class Leaderboard
         comboBox1.TabIndex = 0;
         comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
         // 
+        // label3
+        // 
+        label3.AutoSize = true;
+        label3.Font = new Font("Palatino Linotype", 36F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+        label3.Location = new Point(249, 9);
+        label3.Name = "label3";
+        label3.Size = new Size(297, 63);
+        label3.TabIndex = 9;
+        label3.Text = "Leaderboard";
+        // 
         // Leaderboard
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(800, 450);
+        Controls.Add(label3);
         Controls.Add(comboBox1);
         Controls.Add(panel1);
         Controls.Add(button1);
@@ -73,6 +85,7 @@ partial class Leaderboard
         Activated += Leaderboard_Activated;
         Load += Leaderboard_Load;
         ResumeLayout(false);
+        PerformLayout();
     }
 
     #endregion
@@ -80,4 +93,5 @@ partial class Leaderboard
     private Button button1;
     private Panel panel1;
     private ComboBox comboBox1;
+    private Label label3;
 }

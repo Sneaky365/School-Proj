@@ -31,6 +31,7 @@ partial class HomeForm
         button1 = new Button();
         button2 = new Button();
         button3 = new Button();
+        label3 = new Label();
         SuspendLayout();
         // 
         // button1
@@ -65,11 +66,22 @@ partial class HomeForm
         button3.UseVisualStyleBackColor = true;
         button3.Click += button3_Click;
         // 
+        // label3
+        // 
+        label3.AutoSize = true;
+        label3.Font = new Font("Palatino Linotype", 36F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+        label3.Location = new Point(299, 46);
+        label3.Name = "label3";
+        label3.Size = new Size(152, 63);
+        label3.TabIndex = 9;
+        label3.Text = "Home";
+        // 
         // HomeForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(800, 450);
+        Controls.Add(label3);
         Controls.Add(button3);
         Controls.Add(button2);
         Controls.Add(button1);
@@ -78,6 +90,7 @@ partial class HomeForm
         Activated += HomeForm_Activated;
         Load += HomeForm_Load;
         ResumeLayout(false);
+        PerformLayout();
     }
 
     #endregion
@@ -85,4 +98,5 @@ partial class HomeForm
     private Button button1;
     private Button button2;
     private Button button3;
+    private Label label3;
 }

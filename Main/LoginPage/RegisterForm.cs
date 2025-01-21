@@ -13,6 +13,8 @@ public partial class RegisterForm : Form, IDir
     public RegisterForm()
     {
         InitializeComponent();
+        textBox2.UseSystemPasswordChar = true;
+        
     }
     public event Action OnRegisterCompleted;
     public event Action OnReturningToLogin;
@@ -119,5 +121,29 @@ public partial class RegisterForm : Form, IDir
     private void RegisterForm_Load(object sender, EventArgs e)
     {
 
+    }
+
+    private async void button3_Click(object sender, EventArgs e)
+    {
+        
+         ToggleVisibility();
+        this.Focus();
+
+    }
+    public async Task ToggleVisibility()
+    {
+        
+        textBox2.UseSystemPasswordChar = false;
+        button3.Text = "\uD83D\uDC41";
+        await Task.Delay(2000);
+        textBox2.UseSystemPasswordChar = true;
+        button3.Text = "\uD83D\uDD0D";
+        
+
+    }
+
+    private void RegisterForm_Activated(object sender, EventArgs e)
+    {
+        textBox2.UseSystemPasswordChar = true;
     }
 }

@@ -35,6 +35,7 @@ partial class LoginForm
         textBox2 = new TextBox();
         linkLabel1 = new LinkLabel();
         button2 = new Button();
+        button3 = new Button();
         SuspendLayout();
         // 
         // button1
@@ -100,11 +101,21 @@ partial class LoginForm
         button2.UseVisualStyleBackColor = true;
         button2.Click += button2_Click;
         // 
+        // button3
+        // 
+        button3.Location = new Point(433, 194);
+        button3.Name = "button3";
+        button3.Size = new Size(20, 23);
+        button3.TabIndex = 6;
+        button3.UseVisualStyleBackColor = true;
+        button3.Click += button3_Click;
+        // 
         // LoginForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(800, 450);
+        Controls.Add(button3);
         Controls.Add(button2);
         Controls.Add(linkLabel1);
         Controls.Add(textBox2);
@@ -114,6 +125,7 @@ partial class LoginForm
         Controls.Add(button1);
         Name = "LoginForm";
         Text = "Form1";
+        Activated += LoginForm_Activated;
         Load += LoginForm_Load;
         ResumeLayout(false);
         PerformLayout();
@@ -128,4 +140,5 @@ partial class LoginForm
     private TextBox textBox2;
     private LinkLabel linkLabel1;
     private Button button2;
+    private Button button3;
 }

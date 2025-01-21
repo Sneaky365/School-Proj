@@ -35,6 +35,7 @@ partial class RegisterForm
         textBox2 = new TextBox();
         button2 = new Button();
         linkLabel1 = new LinkLabel();
+        button3 = new Button();
         SuspendLayout();
         // 
         // label1
@@ -100,11 +101,21 @@ partial class RegisterForm
         linkLabel1.Text = "Already have a account? Login here!";
         linkLabel1.LinkClicked += linkLabel1_LinkClicked;
         // 
+        // button3
+        // 
+        button3.Location = new Point(459, 191);
+        button3.Name = "button3";
+        button3.Size = new Size(20, 23);
+        button3.TabIndex = 7;
+        button3.UseVisualStyleBackColor = true;
+        button3.Click += button3_Click;
+        // 
         // RegisterForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(800, 450);
+        Controls.Add(button3);
         Controls.Add(linkLabel1);
         Controls.Add(button2);
         Controls.Add(textBox2);
@@ -114,6 +125,7 @@ partial class RegisterForm
         Controls.Add(label1);
         Name = "RegisterForm";
         Text = "Form1";
+        Activated += RegisterForm_Activated;
         Load += RegisterForm_Load;
         ResumeLayout(false);
         PerformLayout();
@@ -128,4 +140,5 @@ partial class RegisterForm
     private TextBox textBox2;
     private Button button2;
     private LinkLabel linkLabel1;
+    private Button button3;
 }

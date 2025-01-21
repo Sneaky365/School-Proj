@@ -1,9 +1,5 @@
 using Data_Layer;
-using RegisterPage;
 using System.Data.OleDb;
-using System.IO;
-using System.Reflection.Metadata;
-using System.Security.Cryptography.X509Certificates;
 
 namespace LoginPage;
 public partial class LoginForm : Form, IDir
@@ -12,6 +8,7 @@ public partial class LoginForm : Form, IDir
     public LoginForm()
     {
         InitializeComponent();
+        textBox2.UseSystemPasswordChar = true;
     }
     public event Action OnLoginSuccess;
     public event Action OnRegisterRequested;
@@ -28,13 +25,11 @@ public partial class LoginForm : Form, IDir
         string currentDirectory = Directory.GetCurrentDirectory();
         projectRoot = getPath(currentDirectory);
 
-
         string dbRelative = Path.Combine(projectRoot, "Resources", "Users.accdb");
         string dbAbsolute = Path.GetFullPath(dbRelative);
 
         string connectionS = $@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={dbRelative};";
         string queryS = @"SELECT USERNAME, [PASSWORD], ID, HS FROM UserData WHERE USERNAME = @username AND [PASSWORD] = @password";
-        
 
         MessageBox.Show(dbRelative);
         try
@@ -48,7 +43,6 @@ public partial class LoginForm : Form, IDir
 
                     loginCmd.Parameters.AddWithValue("@username", textBox1.Text);
                     loginCmd.Parameters.AddWithValue("@password", textBox2.Text);
-
 
                     OleDbDataReader reader = loginCmd.ExecuteReader();
                     if (!reader.HasRows)
@@ -77,7 +71,6 @@ public partial class LoginForm : Form, IDir
         {
             MessageBox.Show(ex.Message);
         }
-
 
     }
 
@@ -115,5 +108,26 @@ public partial class LoginForm : Form, IDir
     {
         OnHomeRequested?.Invoke();
         this.Close();
+    }
+
+    private async void button3_Click(object sender, EventArgs e)
+    {
+        await ToggleVisibility();
+    }
+
+    public async Task ToggleVisibility()
+    {
+
+        textBox2.UseSystemPasswordChar = false;
+        button3.Text = "\uD83D\uDC41";
+        await Task.Delay(900);
+        textBox2.UseSystemPasswordChar = true;
+        button3.Text = "\uD83D\uDD0D";
+
+    }
+
+    private void LoginForm_Activated(object sender, EventArgs e)
+    {
+        textBox2.UseSystemPasswordChar = true;
     }
 }
