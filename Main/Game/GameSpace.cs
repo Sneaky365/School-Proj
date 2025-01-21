@@ -38,7 +38,8 @@ namespace Game
         int dotSize = 20;
         private void loadCanvas()
         {
-
+            pictureBox1.Height = height * dotSize;
+            pictureBox1.Width = width * dotSize;
             canvasBitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             canvasGraphics = Graphics.FromImage(canvasBitmap);
             canvasGraphics.FillRectangle(Brushes.LightGray, 0, 0, canvasBitmap.Width, canvasBitmap.Height);

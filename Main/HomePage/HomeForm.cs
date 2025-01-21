@@ -6,6 +6,7 @@ using System.Data.Common;
 using System.Data.OleDb;
 using System.Drawing.Text;
 using Accessibility;
+using System.Collections.Generic;
 namespace HomePage;
 
 public partial class HomeForm : Form
@@ -71,7 +72,10 @@ public partial class HomeForm : Form
         {
             if(newHS > user.HighestScore)
             {
+                MessageBox.Show(newHS.ToString());
                 user.HighestScore = newHS;
+                updateUserData();
+                
             }
             this.Show();
         };
@@ -127,7 +131,7 @@ public partial class HomeForm : Form
         infoP.Show();
         infoP.onHomeRequested += () => this.Show();
         infoP.OnLogout += () => this.Show();
-    }
+    }       
 
     private void HomeForm_Activated(object sender, EventArgs e)
     {
@@ -138,7 +142,8 @@ public partial class HomeForm : Form
 
     private void updateUserData()
     {
-        string queryS = @"UPDATE UserData SET HS=@hs WHERE ID=@id";
+        string queryS = @"UPDATE UserData SET HS=@hs WHERE ID=@id"; 
+
         try
         {
             using (OleDbConnection connection = new OleDbConnection(connectionS))
@@ -148,10 +153,20 @@ public partial class HomeForm : Form
                 {
                     using (OleDbCommand command = new OleDbCommand(queryS, connection))
                     {
+                        command.Parameters.AddWithValue("@hs", user.HighestScore);//6455497a-27ee-4ab2-9eea-05c679446ba9
                         command.Parameters.AddWithValue("@id", currID);
-                        command.Parameters.AddWithValue("@hs", user.HighestScore);
-                        command.ExecuteNonQuery();
+                        int rowsAffected = command.ExecuteNonQuery();
 
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show("Record updated successfully.");
+                        }
+                        else
+                        {
+                            int p = 5;
+                            throw new Exception("Error");
+                        }
+                        MessageBox.Show(user.HighestScore.ToString());
                     }
                 }
                 catch (Exception ex)
