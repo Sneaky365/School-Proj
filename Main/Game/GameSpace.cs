@@ -14,6 +14,7 @@ namespace Game
     public partial class GameSpace : Form
      
     {
+        public int maxScore = 0;
         public int score;
         Shape currentShape;
         Shape nextShape;
@@ -65,9 +66,17 @@ namespace Game
                 {
                     if (currentShape.Dots[j, i] == 1)
                     {
-                        checkIfGameOver();
-
-                        DotArray[currentX + i, currentY + j] = 1;
+                        
+                        try
+                        {
+                            DotArray[currentX + i, currentY + j] = 1;
+                            
+                        }catch (Exception e)
+                        {
+                            checkIfGameOver();
+                            break;
+                        }
+                        
                     }
                 }
             }
@@ -83,11 +92,15 @@ namespace Game
                 {
                     this.Close();
                     GameSpace gs = new GameSpace();
+                    if(score > maxScore)
+                    {
+                        maxScore = score;
+                    }
                     gs.Show();
                 }
                 else
                 {
-                    onHomeRequested?.Invoke(score);
+                    onHomeRequested?.Invoke(maxScore);
                     this.Close();
                 }
                 
