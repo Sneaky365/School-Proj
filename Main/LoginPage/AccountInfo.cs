@@ -48,7 +48,7 @@ public partial class AccountInfo : Form, IDir
     {
         List<string> arr = new List<string>();
         string queryS = @"SELECT USERNAME, HS, ID FROM UserData WHERE ID=@id";
-        //string projRoot = getPath(Directory.GetCurrentDirectory());
+        
         string connectionS = $@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(projRoot, "Resources", "Users.accdb")};";
         string id = "";
         using (StreamReader sr = new StreamReader(Path.Combine(projRoot, "Resources", "currUser.txt")))
@@ -68,13 +68,11 @@ public partial class AccountInfo : Form, IDir
                     OleDbDataReader reader = command.ExecuteReader();
                     while(reader.Read())
                     {
-                        // Populate the list from the reader
+                        
                         arr.Add(reader["ID"].ToString());
                         arr.Add(reader["USERNAME"].ToString());
                         arr.Add(reader["HS"].ToString());
-                        arr.Add(reader[0].ToString());
-                        arr.Add(reader[1].ToString());
-                        arr.Add(reader[2].ToString());
+                        
 
                         return arr;
                     }

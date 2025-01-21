@@ -157,15 +157,7 @@ public partial class HomeForm : Form
                         command.Parameters.AddWithValue("@id", currID);
                         int rowsAffected = command.ExecuteNonQuery();
 
-                        if (rowsAffected > 0)
-                        {
-                            MessageBox.Show("Record updated successfully.");
-                        }
-                        else
-                        {
-                            int p = 5;
-                            throw new Exception("Error");
-                        }
+                        
                         MessageBox.Show(user.HighestScore.ToString());
                     }
                 }
