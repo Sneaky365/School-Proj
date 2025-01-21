@@ -36,6 +36,7 @@ partial class LoginForm
         linkLabel1 = new LinkLabel();
         button2 = new Button();
         button3 = new Button();
+        label3 = new Label();
         SuspendLayout();
         // 
         // button1
@@ -110,11 +111,22 @@ partial class LoginForm
         button3.UseVisualStyleBackColor = true;
         button3.Click += button3_Click;
         // 
+        // label3
+        // 
+        label3.AutoSize = true;
+        label3.Font = new Font("Palatino Linotype", 36F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+        label3.Location = new Point(276, 58);
+        label3.Name = "label3";
+        label3.Size = new Size(150, 63);
+        label3.TabIndex = 7;
+        label3.Text = "Login";
+        // 
         // LoginForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(800, 450);
+        Controls.Add(label3);
         Controls.Add(button3);
         Controls.Add(button2);
         Controls.Add(linkLabel1);
@@ -124,7 +136,6 @@ partial class LoginForm
         Controls.Add(label1);
         Controls.Add(button1);
         Name = "LoginForm";
-        Text = "Form1";
         Activated += LoginForm_Activated;
         Load += LoginForm_Load;
         ResumeLayout(false);
@@ -141,4 +152,5 @@ partial class LoginForm
     private LinkLabel linkLabel1;
     private Button button2;
     private Button button3;
+    private Label label3;
 }

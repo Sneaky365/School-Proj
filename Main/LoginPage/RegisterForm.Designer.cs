@@ -36,6 +36,7 @@ partial class RegisterForm
         button2 = new Button();
         linkLabel1 = new LinkLabel();
         button3 = new Button();
+        label3 = new Label();
         SuspendLayout();
         // 
         // label1
@@ -110,11 +111,22 @@ partial class RegisterForm
         button3.UseVisualStyleBackColor = true;
         button3.Click += button3_Click;
         // 
+        // label3
+        // 
+        label3.AutoSize = true;
+        label3.Font = new Font("Palatino Linotype", 36F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+        label3.Location = new Point(282, 56);
+        label3.Name = "label3";
+        label3.Size = new Size(203, 63);
+        label3.TabIndex = 8;
+        label3.Text = "Register";
+        // 
         // RegisterForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(800, 450);
+        Controls.Add(label3);
         Controls.Add(button3);
         Controls.Add(linkLabel1);
         Controls.Add(button2);
@@ -124,7 +136,6 @@ partial class RegisterForm
         Controls.Add(label2);
         Controls.Add(label1);
         Name = "RegisterForm";
-        Text = "Form1";
         Activated += RegisterForm_Activated;
         Load += RegisterForm_Load;
         ResumeLayout(false);
@@ -141,4 +152,5 @@ partial class RegisterForm
     private Button button2;
     private LinkLabel linkLabel1;
     private Button button3;
+    private Label label3;
 }
