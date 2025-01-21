@@ -16,7 +16,7 @@ namespace Game
      
     {
         public int maxScore = 0;
-        public int score;
+        public int score = 0;
         Shape currentShape;
         Shape nextShape;
         Timer timer = new Timer();

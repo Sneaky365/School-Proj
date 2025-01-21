@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using System.Data;
 using System.Data.OleDb;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Data_Layer;
 public partial class Leaderboard : Form
 {
     public event Action onHomeReq;
     Dictionary<string, int> leaderboardData = new Dictionary<string, int>();
+    public int numberOfPeople;
     public Leaderboard()
     {
         InitializeComponent();
         getUsersData();
+        comboBox1.SelectedIndex = 0;
     }
 
     private void button1_Click(object sender, EventArgs e)
@@ -28,11 +22,16 @@ public partial class Leaderboard : Form
 
     private void Leaderboard_Activated(object sender, EventArgs e)
     {
+        panel1.Controls.Clear();
         int yPosition = 20;
         int i = 1;
         foreach (var item in leaderboardData)
         {
-            
+            if (i > numberOfPeople)
+            {
+                break;
+            }
+
             Label label = new Label
             {
                 Text = $"{i}. {item.Key} : {item.Value}",
@@ -47,19 +46,17 @@ public partial class Leaderboard : Form
             };
             label.BorderStyle = BorderStyle.FixedSingle;
 
-            
-            
             panel1.Controls.Add(label);
 
             i++;
-            yPosition += 50;
+            yPosition += 30;
         }
     }
-    private Dictionary<string, int> getUsersData()
+    private Dictionary<string, int> getUsersData(int i = 5)
     {
         string dbRelative = Path.Combine(getPath(), "Resources", "Users.accdb");
         string connectionS = $@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={dbRelative};";
-        string queryS = @"SELECT TOP 5 USERNAME, HS FROM UserData ORDER BY HS DESC";
+        string queryS = @"SELECT TOP 10 USERNAME, HS FROM UserData ORDER BY HS DESC";
 
         using (OleDbConnection connection = new OleDbConnection(connectionS))
         {
@@ -74,10 +71,11 @@ public partial class Leaderboard : Form
                     while (reader.Read())
                     {
                         leaderboardData.Add(reader["USERNAME"].ToString(), int.Parse(reader["HS"].ToString()));
-                       
+
                     }
                 }
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -97,5 +95,37 @@ public partial class Leaderboard : Form
     private void listView1_SelectedIndexChanged(object sender, EventArgs e)
     {
 
+    }
+
+    private void Leaderboard_Load(object sender, EventArgs e)
+    {
+
+    }
+
+    private void sdaToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        switch (comboBox1.SelectedIndex)
+        {
+            case 0:
+                numberOfPeople = 3;
+                this.Refresh();
+                Leaderboard_Activated(this, e);
+                break;
+            case 1:
+                numberOfPeople = 5;
+                this.Refresh();
+                Leaderboard_Activated(this, e);
+                break;
+            case 2:
+                numberOfPeople = 10;
+                this.Refresh();
+                Leaderboard_Activated(this, e);
+                break;
+        }
     }
 }

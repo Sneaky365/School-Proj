@@ -30,6 +30,7 @@ partial class Leaderboard
     {
         button1 = new Button();
         panel1 = new Panel();
+        comboBox1 = new ComboBox();
         SuspendLayout();
         // 
         // button1
@@ -49,16 +50,28 @@ partial class Leaderboard
         panel1.Size = new Size(303, 396);
         panel1.TabIndex = 1;
         // 
+        // comboBox1
+        // 
+        comboBox1.FormattingEnabled = true;
+        comboBox1.Items.AddRange(new object[] { "Top 3", "Top 5", "Top 10" });
+        comboBox1.Location = new Point(618, 54);
+        comboBox1.Name = "comboBox1";
+        comboBox1.Size = new Size(121, 23);
+        comboBox1.TabIndex = 0;
+        comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+        // 
         // Leaderboard
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(800, 450);
+        Controls.Add(comboBox1);
         Controls.Add(panel1);
         Controls.Add(button1);
         Name = "Leaderboard";
         Text = "Leaderboard";
         Activated += Leaderboard_Activated;
+        Load += Leaderboard_Load;
         ResumeLayout(false);
     }
 
@@ -66,4 +79,5 @@ partial class Leaderboard
 
     private Button button1;
     private Panel panel1;
+    private ComboBox comboBox1;
 }

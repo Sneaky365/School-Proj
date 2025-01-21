@@ -79,7 +79,7 @@ public partial class HomeForm : Form
             }
             this.Show();
         };
-
+        gs.FormClosed += (a,b) => this.Show();
 
         return true;
 
@@ -206,6 +206,7 @@ public partial class HomeForm : Form
     {
         Leaderboard leaderboard = new Leaderboard();
         leaderboard.Show();
+        this.Hide();
         leaderboard.onHomeReq += () =>
         {
             this.Show();
