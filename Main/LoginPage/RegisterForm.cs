@@ -20,6 +20,11 @@ public partial class RegisterForm : Form, IDir
     {
         string currentDirectory = Directory.GetCurrentDirectory();
         string projectRoot = getPath(currentDirectory);
+        if (textBox1.Text.Length == 0 || textBox2.Text.Length == 0)
+        {
+            MessageBox.Show("No empty fields allowed");
+            return;
+        }
         textBox1.Text = textBox1.Text.Trim();
         textBox2.Text = textBox2.Text.Trim();
         string queryS = @"INSERT INTO UserData ([PASSWORD], USERNAME, ID, HS) 
