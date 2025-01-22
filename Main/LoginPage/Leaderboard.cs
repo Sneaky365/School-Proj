@@ -82,6 +82,7 @@ public partial class Leaderboard : Form
             {
                 MessageBox.Show(ex.Message);
             }
+            finally { connection.Close(); }
         }
         return leaderboardData;
     }

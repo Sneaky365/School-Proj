@@ -28,7 +28,7 @@ public partial class RegisterForm : Form, IDir
         string dbRelative = Path.Combine(projectRoot, "Resources", "Users.accdb");
 
         string connectionS = $@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={dbRelative};";
-        MessageBox.Show(connectionS);
+        //MessageBox.Show(connectionS);
         try
         {
             using (OleDbConnection connection = new OleDbConnection(connectionS))
@@ -58,11 +58,12 @@ public partial class RegisterForm : Form, IDir
                 {
                     MessageBox.Show(ex.Message);
                 }
+                finally { connection.Close(); }
             }
         }
         catch (Exception ex)
         {
-
+            MessageBox.Show(ex.Message);
         }
 
     }
