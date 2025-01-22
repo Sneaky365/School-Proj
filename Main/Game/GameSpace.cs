@@ -11,9 +11,8 @@ using static System.Windows.Forms.AxHost;
 
 namespace Game
 {
-   
     public partial class GameSpace : Form
-     
+
     {
         public int maxScore = 0;
         public int score = 0;
@@ -41,7 +40,7 @@ namespace Game
         private void loadCanvas()
         {
             pictureBox1.Height = height * dotSize;
-            pictureBox1.Width = width * dotSize;
+            pictureBox1.Width = width * dotSize + 5;
             canvasBitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             canvasGraphics = Graphics.FromImage(canvasBitmap);
             canvasGraphics.FillRectangle(Brushes.DarkSlateGray, 0, 0, canvasBitmap.Width, canvasBitmap.Height);
@@ -215,6 +214,21 @@ namespace Game
                     holdShape();
                     break;
 
+                case Keys.R:
+                    this.Close();
+                    GameSpace gs = new GameSpace();
+                    if (score > maxScore)
+                    {
+                        maxScore = score;
+                    }
+                    gs.Show();
+                    break;
+
+                case Keys.Escape:
+                    onHomeRequested?.Invoke(maxScore);
+                    this.Close();
+                    break;
+
                 default:
                     return;
 
@@ -225,7 +239,6 @@ namespace Game
             if (!isMoveSuccess && e.KeyCode == Keys.Up)
                 currentShape.rollback();
         }
-
         private void drawShape()
         {
             workingBitmap = new Bitmap(canvasBitmap);
@@ -320,6 +333,7 @@ namespace Game
 
             pictureBox2.Size = nextShapeBitmap.Size;
             pictureBox2.Image = nextShapeBitmap;
+            pictureBox3.Size = nextShapeBitmap.Size;
 
             return shape;
         }
@@ -388,16 +402,6 @@ namespace Game
             {
                 pictureBox3.Image = null;
             }
-        }
-
-        private void RestartButton_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void HomeButton_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
