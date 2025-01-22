@@ -11,7 +11,10 @@ public partial class Leaderboard : Form
     {
         InitializeComponent();
         getUsersData();
+        
+        comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
         comboBox1.SelectedIndex = 0;
+        comboBox1.SelectionStart = 0;
     }
 
     private void button1_Click(object sender, EventArgs e)

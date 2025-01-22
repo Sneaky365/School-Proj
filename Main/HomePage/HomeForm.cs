@@ -79,7 +79,18 @@ namespace HomePage
                 }
                 this.Show();
             };
-            gs.FormClosed += (a, b) => this.Show();
+            gs.onRestart += (newHS) =>
+            {
+                if (newHS > user.HighestScore)
+                {
+                    MessageBox.Show(newHS.ToString());
+                    user.HighestScore = newHS;
+                    updateUserData();
+
+                }
+                
+            };
+                gs.FormClosed += (a, b) => this.Show();
 
             return true;
 

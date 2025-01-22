@@ -84,6 +84,7 @@ namespace Game
         int currentX;
         int currentY;
         public event Action<int> onHomeRequested;
+        public event Action<int> onRestart;
 
         private Shape getRandomShapeWithCenterAligned()
         {
@@ -215,13 +216,16 @@ namespace Game
                     break;
 
                 case Keys.R:
-                    this.Close();
+                    
                     GameSpace gs = new GameSpace();
                     if (score > maxScore)
                     {
                         maxScore = score;
                     }
+                    onRestart?.Invoke(maxScore);
+                    this.Dispose();
                     gs.Show();
+                    
                     break;
 
                 case Keys.Escape:
@@ -402,6 +406,11 @@ namespace Game
             {
                 pictureBox3.Image = null;
             }
+        }
+
+        private void GameSpace_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
