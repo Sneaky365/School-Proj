@@ -7,209 +7,210 @@ using System.Data.OleDb;
 using System.Drawing.Text;
 using Accessibility;
 using System.Collections.Generic;
-namespace HomePage;
-
-public partial class HomeForm : Form
+namespace HomePage
 {
-    public string currentDirectory;
-    public string connectionS;
-    public UserClass user;
-    public string currID;
-    public HomeForm()
+    public partial class HomeForm : Form
     {
-
-        InitializeComponent();
-        currentDirectory = getPath(Directory.GetCurrentDirectory());
-        connectionS = $@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(currentDirectory, "Resources", "Users.accdb")}";
-        currID = getID();
-    }
-
-    private bool handleReqsOnEmpty()
-    {
-        LoginForm loginForm = new LoginForm();
-        RegisterForm registerForm = null;
-        AccountInfo accountInfo = new AccountInfo();
-
-
-        loginForm.OnLoginSuccess += () =>
+        public string currentDirectory;
+        public string connectionS;
+        public UserClass user;
+        public string currID;
+        public HomeForm()
         {
-            this.Show();
-        };
 
-        loginForm.OnRegisterRequested += () =>
+            InitializeComponent();
+            currentDirectory = getPath(Directory.GetCurrentDirectory());
+            connectionS = $@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(currentDirectory, "Resources", "Users.accdb")}";
+            currID = getID();
+        }
+
+        private bool handleReqsOnEmpty()
         {
-            if (registerForm == null || registerForm.IsDisposed)
+            LoginForm loginForm = new LoginForm();
+            RegisterForm registerForm = null;
+            AccountInfo accountInfo = new AccountInfo();
+
+
+            loginForm.OnLoginSuccess += () =>
             {
-                registerForm = new RegisterForm();
-                registerForm.OnRegisterCompleted += () => this.Show();
-                registerForm.OnReturningToHome += () =>
+                this.Show();
+            };
+
+            loginForm.OnRegisterRequested += () =>
+            {
+                if (registerForm == null || registerForm.IsDisposed)
                 {
-                    this.Show();
-                };
-                registerForm.OnReturningToLogin += () =>
+                    registerForm = new RegisterForm();
+                    registerForm.OnRegisterCompleted += () => this.Show();
+                    registerForm.OnReturningToHome += () =>
+                    {
+                        this.Show();
+                    };
+                    registerForm.OnReturningToLogin += () =>
+                    {
+                        loginForm.Show();
+                    };
+                }
+                registerForm.Show();
+                this.Hide();
+            };
+            loginForm.FormClosed += (a, b) => this.Show();
+            loginForm.OnHomeRequested += () => this.Show();
+            loginForm.Show();
+            return true;
+        }
+        private bool handleReqsOnLogined()
+        {
+            getUserData();
+            GameSpace gs = new GameSpace();
+
+
+            gs.Activated += (sender, b) => { };
+
+            gs.Show();
+            gs.onHomeRequested += (newHS) =>
+            {
+                if (newHS > user.HighestScore)
                 {
-                    loginForm.Show();
-                };
-            }
-            registerForm.Show();
+                    MessageBox.Show(newHS.ToString());
+                    user.HighestScore = newHS;
+                    updateUserData();
+
+                }
+                this.Show();
+            };
+            gs.FormClosed += (a, b) => this.Show();
+
+            return true;
+
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            var d = button2.Visible ? handleReqsOnLogined() : handleReqsOnEmpty();
             this.Hide();
-        };
-        loginForm.FormClosed += (a, b) => this.Show();
-        loginForm.OnHomeRequested += () => this.Show();
-        loginForm.Show();
-        return true;
-    }
-    private bool handleReqsOnLogined()
-    {
-        getUserData();
-        GameSpace gs = new GameSpace();
 
 
-        gs.Activated += (sender, b) => { };
+        }
 
-        gs.Show();
-        gs.onHomeRequested += (newHS) =>
+        private void HomeForm_Load(object sender, EventArgs e)
         {
-            if (newHS > user.HighestScore)
+
+            CheckIfLogined();
+
+        }
+        private void CheckIfLogined()
+        {
+            string p = File.ReadAllText(Path.Combine(getPath(Directory.GetCurrentDirectory()), "Resources", "currUser.txt"));
+            if (p.Length == 0)
             {
-                MessageBox.Show(newHS.ToString());
-                user.HighestScore = newHS;
-                updateUserData();
-
+                button2.Visible = false;
             }
-            this.Show();
-        };
-        gs.FormClosed += (a,b) => this.Show();
-
-        return true;
-
-    }
-    private void button1_Click(object sender, EventArgs e)
-    {
-
-        var d = button2.Visible ? handleReqsOnLogined() : handleReqsOnEmpty();
-        this.Hide();
-
-
-    }
-
-    private void HomeForm_Load(object sender, EventArgs e)
-    {
-
-        CheckIfLogined();
-
-    }
-    private void CheckIfLogined()
-    {
-        string p = File.ReadAllText(Path.Combine(getPath(Directory.GetCurrentDirectory()), "Resources", "currUser.txt"));
-        if (p.Length == 0)
-        {
-            button2.Visible = false;
+            else
+            {
+                button2.Visible = true;
+            }
         }
-        else
+        public string getPath(string currentDirectory, int i = 5)
         {
-            button2.Visible = true;
+            for (int p = 0; p < i; p++)
+            {
+                currentDirectory = Directory.GetParent(currentDirectory).FullName;
+            }
+            return currentDirectory;
         }
-    }
-    public string getPath(string currentDirectory, int i = 5)
-    {
-        for (int p = 0; p < i; p++)
+
+        private void button2_Click(object sender, EventArgs e)
         {
-            currentDirectory = Directory.GetParent(currentDirectory).FullName;
+            this.Hide();
+            AccountInfo infoP = new AccountInfo();
+            if (user == null) getUserData();
+            updateUserData();
+
+
+            infoP.Show();
+            infoP.onHomeRequested += () => this.Show();
+            infoP.OnLogout += () => this.Show();
         }
-        return currentDirectory;
-    }
 
-    private void button2_Click(object sender, EventArgs e)
-    {
-        this.Hide();
-        AccountInfo infoP = new AccountInfo();
-        if (user == null) getUserData();
-        updateUserData();
-
-
-        infoP.Show();
-        infoP.onHomeRequested += () => this.Show();
-        infoP.OnLogout += () => this.Show();
-    }
-
-    private void HomeForm_Activated(object sender, EventArgs e)
-    {
-
-        CheckIfLogined();
-        currID = getID();
-    }
-
-    private void updateUserData()
-    {
-        string queryS = @"UPDATE UserData SET HS=@hs WHERE ID=@id";
-
-        try
+        private void HomeForm_Activated(object sender, EventArgs e)
         {
+
+            CheckIfLogined();
+            currID = getID();
+        }
+
+        private void updateUserData()
+        {
+            string queryS = @"UPDATE UserData SET HS=@hs WHERE ID=@id";
+
+            try
+            {
+                using (OleDbConnection connection = new OleDbConnection(connectionS))
+                {
+                    connection.Open();
+                    try
+                    {
+                        using (OleDbCommand command = new OleDbCommand(queryS, connection))
+                        {
+                            command.Parameters.AddWithValue("@hs", user.HighestScore);//6455497a-27ee-4ab2-9eea-05c679446ba9
+                            command.Parameters.AddWithValue("@id", currID);
+                            int rowsAffected = command.ExecuteNonQuery();
+
+
+                            MessageBox.Show(user.HighestScore.ToString());
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void getUserData()
+        {
+
+            string queryS = @"SELECT ID, [PASSWORD], USERNAME, HS FROM UserData WHERE ID=@id";
+
             using (OleDbConnection connection = new OleDbConnection(connectionS))
             {
                 connection.Open();
-                try
+                using (OleDbCommand command = new OleDbCommand(queryS, connection))
                 {
-                    using (OleDbCommand command = new OleDbCommand(queryS, connection))
+                    command.Parameters.AddWithValue("@id", getID());
+                    OleDbDataReader reader = command.ExecuteReader();
+                    if (reader.Read())
                     {
-                        command.Parameters.AddWithValue("@hs", user.HighestScore);//6455497a-27ee-4ab2-9eea-05c679446ba9
-                        command.Parameters.AddWithValue("@id", currID);
-                        int rowsAffected = command.ExecuteNonQuery();
-
-
-                        MessageBox.Show(user.HighestScore.ToString());
+                        user = new UserClass(reader["ID"].ToString(), reader["USERNAME"].ToString(), reader["PASSWORD"].ToString(), int.Parse(reader["HS"].ToString()));
                     }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                connection.Close();
+
             }
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show(ex.Message);
-        }
-    }
-    private void getUserData()
-    {
 
-        string queryS = @"SELECT ID, [PASSWORD], USERNAME, HS FROM UserData WHERE ID=@id";
-
-        using (OleDbConnection connection = new OleDbConnection(connectionS))
+        }
+        private string getID()
         {
-            connection.Open();
-            using (OleDbCommand command = new OleDbCommand(queryS, connection))
+            using (StreamReader streamReader = new StreamReader(Path.Combine(currentDirectory, "Resources", "currUser.txt")))
             {
-                command.Parameters.AddWithValue("@id", getID());
-                OleDbDataReader reader = command.ExecuteReader();
-                if (reader.Read())
-                {
-                    user = new UserClass(reader["ID"].ToString(), reader["USERNAME"].ToString(), reader["PASSWORD"].ToString(), int.Parse(reader["HS"].ToString()));
-                }
+                return streamReader.ReadLine();//Err Handling?
             }
-            connection.Close();
-
         }
 
-    }
-    private string getID()
-    {
-        using (StreamReader streamReader = new StreamReader(Path.Combine(currentDirectory, "Resources", "currUser.txt")))
+        private void button3_Click(object sender, EventArgs e)
         {
-            return streamReader.ReadLine();//Err Handling?
+            Leaderboard leaderboard = new Leaderboard();
+            leaderboard.Show();
+            this.Hide();
+            leaderboard.onHomeReq += () =>
+            {
+                this.Show();
+            };
         }
-    }
-
-    private void button3_Click(object sender, EventArgs e)
-    {
-        Leaderboard leaderboard = new Leaderboard();
-        leaderboard.Show();
-        this.Hide();
-        leaderboard.onHomeReq += () =>
-        {
-            this.Show();
-        };
     }
 }

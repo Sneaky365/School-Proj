@@ -389,5 +389,15 @@ namespace Game
                 pictureBox3.Image = null;
             }
         }
+
+        private void RestartButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void HomeButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
