@@ -83,8 +83,8 @@ public partial class AccountInfo : Form, IDir
                     {
                         MessageBox.Show(ex.Message);
                     }
-
                 }
+                finally { connection.Close(); }
             }
 
         }

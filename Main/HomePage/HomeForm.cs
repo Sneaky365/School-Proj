@@ -176,33 +176,48 @@ namespace HomePage
                     {
                         MessageBox.Show(ex.Message);
                     }
+                    finally { connection.Close(); }
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+
         }
         private void getUserData()
         {
 
             string queryS = @"SELECT ID, [PASSWORD], USERNAME, HS FROM UserData WHERE ID=@id";
-
-            using (OleDbConnection connection = new OleDbConnection(connectionS))
+            try
             {
-                connection.Open();
-                using (OleDbCommand command = new OleDbCommand(queryS, connection))
+                using (OleDbConnection connection = new OleDbConnection(connectionS))
                 {
-                    command.Parameters.AddWithValue("@id", getID());
-                    OleDbDataReader reader = command.ExecuteReader();
-                    if (reader.Read())
+                    connection.Open();
+                    try
                     {
-                        user = new UserClass(reader["ID"].ToString(), reader["USERNAME"].ToString(), reader["PASSWORD"].ToString(), int.Parse(reader["HS"].ToString()));
-                    }
-                }
-                connection.Close();
+                        using (OleDbCommand command = new OleDbCommand(queryS, connection))
+                        {
+                            command.Parameters.AddWithValue("@id", getID());
+                            OleDbDataReader reader = command.ExecuteReader();
+                            if (reader.Read())
+                            {
+                                user = new UserClass(reader["ID"].ToString(), reader["USERNAME"].ToString(), reader["PASSWORD"].ToString(), int.Parse(reader["HS"].ToString()));
+                            }
+                        }
+                    }catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }finally { connection.Close(); }
+                    
+                    
 
+                }
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
+            
 
         }
         private string getID()
