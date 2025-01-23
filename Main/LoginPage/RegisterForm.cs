@@ -63,7 +63,7 @@ public partial class RegisterForm : Form, IDir
                 {
                     MessageBox.Show(ex.Message);
                 }
-                finally { connection.Close(); }
+                
             }
         }
         catch (Exception ex)
@@ -137,7 +137,7 @@ public partial class RegisterForm : Form, IDir
 
         textBox2.UseSystemPasswordChar = false;
         button3.Text = "\uD83D\uDC41";
-        await Task.Delay(2000);
+        await Task.Delay(500);
         textBox2.UseSystemPasswordChar = true;
         button3.Text = "\uD83D\uDD0D";
 

@@ -62,7 +62,7 @@ public partial class LoginForm : Form, IDir
                 {
                     MessageBox.Show(ex.Message);
                 }
-                finally { connection.Close(); }
+                
 
             }
 

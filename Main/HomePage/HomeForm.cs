@@ -72,7 +72,7 @@ namespace HomePage
             {
                 if (newHS > user.HighestScore)
                 {
-                    MessageBox.Show(newHS.ToString());
+                    //MessageBox.Show(newHS.ToString());
                     user.HighestScore = newHS;
                     updateUserData();
 
@@ -83,7 +83,7 @@ namespace HomePage
             {
                 if (newHS > user.HighestScore)
                 {
-                    MessageBox.Show(newHS.ToString());
+                   // MessageBox.Show(newHS.ToString());
                     user.HighestScore = newHS;
                     updateUserData();
 
@@ -169,14 +169,14 @@ namespace HomePage
                             int rowsAffected = command.ExecuteNonQuery();
 
 
-                            MessageBox.Show(user.HighestScore.ToString());
+                            //MessageBox.Show(user.HighestScore.ToString());
                         }
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message);
                     }
-                    finally { connection.Close(); }
+                    
                 }
             }
             catch (Exception ex)
