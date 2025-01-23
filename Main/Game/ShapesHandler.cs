@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,74 +13,67 @@ namespace Game
         static ShapesHandler()
         {
             shapes = new Shape[]
-                {
-                    new Shape {
-                        Width = 2,
-                        Height = 2,
-                        Dots = new int[,]
-                        {
-                            { 1, 1 },
-                            { 1, 1 }
-                        }
-                    },
-                    new Shape {
-                        Width = 1,
-                        Height = 4,
-                        Dots = new int[,]
-                        {
-                            { 1 },
-                            { 1 },
-                            { 1 },
-                            { 1 }
-                        }
-                    },
-                    new Shape {
-                        Width = 3,
-                        Height = 2,
-                        Dots = new int[,]
-                        {
-                            { 0, 1, 0 },
-                            { 1, 1, 1 }
-                        }
-                    },
-                    new Shape {
-                        Width = 3,
-                        Height = 2,
-                        Dots = new int[,]
-                        {
-                            { 0, 0, 1 },
-                            { 1, 1, 1 }
-                        }
-                    },
-                    new Shape {
-                        Width = 3,
-                        Height = 2,
-                        Dots = new int[,]
-                        {
-                            { 1, 0, 0 },
-                            { 1, 1, 1 }
-                        }
-                    },
-                    new Shape {
-                        Width = 3,
-                        Height = 2,
-                        Dots = new int[,]
-                        {
-                            { 1, 1, 0 },
-                            { 0, 1, 1 }
-                        }
-                    },
-                    new Shape {
-                        Width = 3,
-                        Height = 2,
-                        Dots = new int[,]
-                        {
-                            { 0, 1, 1 },
-                            { 1, 1, 0 }
-                        }
-                    }
-                };
-            }
+            {
+        new Shape(
+            new int[,]
+            {
+                { 1, 1 },
+                { 1, 1 }
+            },
+            Color.Yellow // Square shape color
+        ),
+        new Shape(
+            new int[,]
+            {
+                { 1 },
+                { 1 },
+                { 1 },
+                { 1 }
+            },
+            Color.Cyan // Line shape color
+        ),
+        new Shape(
+            new int[,]
+            {
+                { 0, 1, 0 },
+                { 1, 1, 1 }
+            },
+            Color.Purple // T shape color
+        ),
+        new Shape(
+            new int[,]
+            {
+                { 0, 0, 1 },
+                { 1, 1, 1 }
+            },
+            Color.Orange // L shape color
+        ),
+        new Shape(
+            new int[,]
+            {
+                { 1, 0, 0 },
+                { 1, 1, 1 }
+            },
+            Color.Blue // Reverse L shape color
+        ),
+        new Shape(
+            new int[,]
+            {
+                { 1, 1, 0 },
+                { 0, 1, 1 }
+            },
+            Color.Red // Z shape color
+        ),
+        new Shape(
+            new int[,]
+            {
+                { 0, 1, 1 },
+                { 1, 1, 0 }
+            },
+            Color.Green // Reverse Z shape color
+        )
+            };
+        }
         public static Shape GetRandomShape()
         {
             var shape = shapes[new Random().Next(shapes.Length)];
