@@ -31,7 +31,7 @@ public partial class LoginForm : Form, IDir
         string connectionS = $@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={dbRelative};";
         string queryS = @"SELECT USERNAME, [PASSWORD], ID, HS FROM UserData WHERE USERNAME = @username AND [PASSWORD] = @password";
 
-        //MessageBox.Show(dbRelative);
+        
         try
         {
             using (OleDbConnection connection = new OleDbConnection(connectionS))

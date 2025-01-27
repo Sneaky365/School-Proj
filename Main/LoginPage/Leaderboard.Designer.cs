@@ -56,6 +56,7 @@ partial class Leaderboard
         // 
         // panel1
         // 
+        panel1.AutoScroll = true;
         panel1.BackColor = Color.Transparent;
         panel1.Font = new Font("Comic Sans MS", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
         panel1.ForeColor = Color.White;

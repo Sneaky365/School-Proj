@@ -20,6 +20,7 @@ public partial class AccountInfo : Form, IDir
     {
         InitializeComponent();
         projRoot = getPath(Directory.GetCurrentDirectory());
+        pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
     }
     LoginForm loginForm;
     public event Action onHomeRequested;
