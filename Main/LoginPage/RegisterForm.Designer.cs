@@ -28,6 +28,7 @@ partial class RegisterForm
     /// </summary>
     private void InitializeComponent()
     {
+        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RegisterForm));
         label1 = new Label();
         label2 = new Label();
         button1 = new Button();
@@ -42,7 +43,9 @@ partial class RegisterForm
         // label1
         // 
         label1.AutoSize = true;
-        label1.Location = new Point(198, 144);
+        label1.BackColor = Color.Transparent;
+        label1.ForeColor = Color.White;
+        label1.Location = new Point(236, 225);
         label1.Name = "label1";
         label1.Size = new Size(60, 15);
         label1.TabIndex = 0;
@@ -51,7 +54,9 @@ partial class RegisterForm
         // label2
         // 
         label2.AutoSize = true;
-        label2.Location = new Point(198, 191);
+        label2.BackColor = Color.Transparent;
+        label2.ForeColor = Color.White;
+        label2.Location = new Point(236, 272);
         label2.Name = "label2";
         label2.Size = new Size(57, 15);
         label2.TabIndex = 1;
@@ -59,42 +64,57 @@ partial class RegisterForm
         // 
         // button1
         // 
-        button1.Location = new Point(340, 268);
+        button1.BackColor = Color.Transparent;
+        button1.FlatAppearance.BorderSize = 0;
+        button1.FlatAppearance.MouseDownBackColor = Color.Transparent;
+        button1.FlatAppearance.MouseOverBackColor = Color.Transparent;
+        button1.FlatStyle = FlatStyle.Flat;
+        button1.Font = new Font("Comic Sans MS", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        button1.ForeColor = Color.White;
+        button1.Location = new Point(565, 289);
         button1.Name = "button1";
-        button1.Size = new Size(75, 23);
+        button1.Size = new Size(137, 79);
         button1.TabIndex = 2;
         button1.Text = "Submit";
-        button1.UseVisualStyleBackColor = true;
+        button1.UseVisualStyleBackColor = false;
         button1.Click += button1_Click;
         // 
         // textBox1
         // 
-        textBox1.Location = new Point(326, 144);
+        textBox1.Location = new Point(310, 222);
         textBox1.Name = "textBox1";
         textBox1.Size = new Size(100, 23);
         textBox1.TabIndex = 3;
         // 
         // textBox2
         // 
-        textBox2.Location = new Point(326, 191);
+        textBox2.Location = new Point(310, 269);
         textBox2.Name = "textBox2";
         textBox2.Size = new Size(100, 23);
         textBox2.TabIndex = 4;
         // 
         // button2
         // 
-        button2.Location = new Point(617, 56);
+        button2.BackColor = Color.Transparent;
+        button2.FlatAppearance.BorderSize = 0;
+        button2.FlatAppearance.MouseDownBackColor = Color.Transparent;
+        button2.FlatAppearance.MouseOverBackColor = Color.Transparent;
+        button2.FlatStyle = FlatStyle.Flat;
+        button2.Font = new Font("Comic Sans MS", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        button2.ForeColor = Color.White;
+        button2.Location = new Point(-1, -1);
         button2.Name = "button2";
-        button2.Size = new Size(75, 23);
+        button2.Size = new Size(117, 74);
         button2.TabIndex = 5;
-        button2.Text = "Home";
-        button2.UseVisualStyleBackColor = true;
+        button2.Text = "↶Home";
+        button2.UseVisualStyleBackColor = false;
         button2.Click += button2_Click;
         // 
         // linkLabel1
         // 
         linkLabel1.AutoSize = true;
-        linkLabel1.Location = new Point(282, 240);
+        linkLabel1.BackColor = Color.Transparent;
+        linkLabel1.Location = new Point(255, 309);
         linkLabel1.Name = "linkLabel1";
         linkLabel1.Size = new Size(197, 15);
         linkLabel1.TabIndex = 6;
@@ -104,9 +124,11 @@ partial class RegisterForm
         // 
         // button3
         // 
-        button3.Location = new Point(459, 191);
+        button3.BackgroundImage = (Image)resources.GetObject("button3.BackgroundImage");
+        button3.BackgroundImageLayout = ImageLayout.Stretch;
+        button3.Location = new Point(443, 269);
         button3.Name = "button3";
-        button3.Size = new Size(20, 23);
+        button3.Size = new Size(23, 23);
         button3.TabIndex = 7;
         button3.UseVisualStyleBackColor = true;
         button3.Click += button3_Click;
@@ -114,10 +136,12 @@ partial class RegisterForm
         // label3
         // 
         label3.AutoSize = true;
-        label3.Font = new Font("Palatino Linotype", 36F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-        label3.Location = new Point(282, 56);
+        label3.BackColor = Color.Transparent;
+        label3.Font = new Font("Comic Sans MS", 36F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+        label3.ForeColor = Color.White;
+        label3.Location = new Point(245, 47);
         label3.Name = "label3";
-        label3.Size = new Size(203, 63);
+        label3.Size = new Size(221, 68);
         label3.TabIndex = 8;
         label3.Text = "Register";
         // 
@@ -125,7 +149,9 @@ partial class RegisterForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(800, 450);
+        BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+        BackgroundImageLayout = ImageLayout.Center;
+        ClientSize = new Size(697, 363);
         Controls.Add(label3);
         Controls.Add(button3);
         Controls.Add(linkLabel1);
@@ -135,6 +161,7 @@ partial class RegisterForm
         Controls.Add(button1);
         Controls.Add(label2);
         Controls.Add(label1);
+        DoubleBuffered = true;
         Name = "RegisterForm";
         Activated += RegisterForm_Activated;
         Load += RegisterForm_Load;

@@ -252,16 +252,8 @@ namespace Game
             {
                 for (int j = 0; j < currentShape.Height; j++)
                 {
-                    canvasGraphics.FillRectangle(
-                    new SolidBrush(currentShape.ShapeColor),
-                    (currentX + j) * dotSize, (currentY + i) * dotSize, dotSize, dotSize
-                );
-
-                    // Optional: Add borders to the blocks
-                    canvasGraphics.DrawRectangle(
-                        Pens.White,
-                        (currentX + j) * dotSize, (currentY + i) * dotSize, dotSize, dotSize
-                    );
+                    if (currentShape.Dots[j, i] == 1)
+                        workingGraphics.FillRectangle(Brushes.Black, (currentX + i) * dotSize, (currentY + j) * dotSize, dotSize, dotSize);
                 }
             }
 
@@ -334,12 +326,11 @@ namespace Game
                     if (shape.Dots[i, j] == 1)
                     {
                         nextShapeGraphics.FillRectangle(
-                        new SolidBrush(shape.ShapeColor),
-                        (startX + j) * dotSize, (startY + i) * dotSize, dotSize, dotSize);
+                            shape.Dots[i, j] == 1 ? Brushes.Black : Brushes.LightGray,
+                            (startX + j) * dotSize, (startY + i) * dotSize, dotSize, dotSize);
                         nextShapeGraphics.DrawRectangle(
                             Pens.White,
-                            (startX + j) * dotSize, (startY + i) * dotSize, dotSize, dotSize
-                        );
+                            (startX + j) * dotSize, (startY + i) * dotSize, dotSize, dotSize);
                     }
                 }
             }
@@ -394,7 +385,7 @@ namespace Game
                         if (heldShape.Dots[i, j] == 1)
                         {
                             holdShapeGraphics.FillRectangle(
-                                new SolidBrush(heldShape.ShapeColor),
+                                Brushes.Black,
                                 (startX + j) * dotSize, (startY + i) * dotSize, dotSize, dotSize
                             );
 
