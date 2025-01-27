@@ -39,7 +39,7 @@ namespace Game
         int dotSize = 20;
         private void loadCanvas()
         {
-            pictureBox1.Height = height * dotSize;
+            pictureBox1.Height = height * dotSize + 5;
             pictureBox1.Width = width * dotSize + 5;
             canvasBitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             canvasGraphics = Graphics.FromImage(canvasBitmap);
